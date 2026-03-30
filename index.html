@@ -1722,6 +1722,9 @@
         select.appendChild(opt);
       });
       
+      // Add onchange handler to trigger analysis
+      select.onchange = updateAnalysis;
+      
       container.innerHTML = '';
       container.appendChild(select);
       updateAnalysis();
@@ -2462,6 +2465,7 @@
     function analyzeBanRecommendations() {
       const yourHeroSelect = document.querySelector('#your-hero-select select');
       const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
+      console.log('🚫 Ban recommendations running, yourHeroId:', yourHeroId);
       
       const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
         .map(id => document.getElementById(id).value)
@@ -2547,8 +2551,22 @@
       // Sort by score
       banCandidates.sort((a, b) => b.score - a.score);
       
-      // Display top 5 bans
-      displayBanRecommendations(banCandidates.slice(0, 5));
+      // Display top 5 bans (or show message if none)
+      console.log('🚫 Ban candidates found:', banCandidates.length);
+      if (banCandidates.length > 0) {
+        displayBanRecommendations(banCandidates.slice(0, 5));
+      } else {
+        // Show generic S-tier bans
+        const genericBans = Object.values(HEROES)
+          .filter(h => h.tier === 'S')
+          .slice(0, 5)
+          .map(h => ({
+            hero: h,
+            score: 5,
+            reasons: ['S-tier meta pick - Always dangerous']
+          }));
+        displayBanRecommendations(genericBans);
+      }
     }
     
     function displayBanRecommendations(bans) {
