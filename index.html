@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1615,7 +1614,11 @@
       
       document.getElementById('build-advice').style.display = 'block';
       
-      const enemies = enemyIds.map(id => HEROES[id]).filter(h => h);
+      // Get ONLY enemies from enemy dropdowns
+      const actualEnemyIds = ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5']
+        .map(id => document.getElementById(id).value)
+        .filter(v => v);
+      const enemies = actualEnemyIds.map(id => HEROES[id]).filter(h => h);
       
       // Only analyze if we have enemy picks
       if (enemies.length === 0) {
@@ -1701,8 +1704,8 @@
   
     
     function analyzeGamePlan() {
-      const yourHero = document.querySelector('#your-hero-select select');
-      const yourHeroId = yourHero ? yourHero.value : null;
+      const yourHeroSelect = document.querySelector('#your-hero-select select');
+      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
       
       const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
         .map(id => document.getElementById(id).value)
@@ -1798,7 +1801,23 @@
       
       // Display analysis
       const container = document.getElementById('game-plan-content');
+      
+      // Get hero-specific advice
+      const heroAdvice = yourHeroId ? getHeroSpecificAdvice(yourHeroId, enemyTeam) : [];
       let html = '';
+      
+      // Display hero-specific advice FIRST
+      if (heroAdvice.length > 0) {
+        html += '<div style="background: rgba(59,130,246,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #3b82f6;"><strong style="color: #60a5fa;">🎯 YOUR HERO: ' + HEROES[yourHeroId].nameEn + '</strong>';
+        heroAdvice.forEach(adv => {
+          const color = adv.type === 'warning' ? '#ef4444' : adv.type === 'wincon' ? '#10b981' : '#60a5fa';
+          html += '<div style="margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 6px;">';
+          html += '<div style="color: ' + color + '; font-weight: 600;">' + adv.text + '</div>';
+          html += '<div style="color: #e2e8f0; margin-top: 4px; font-size: 0.95rem;">' + adv.tip + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
       
       if (analysis.yourStrengths.length > 0) {
         html += '<div style="margin-bottom: 12px;"><strong style="color: #10b981;">✅ Your Strengths:</strong>';
@@ -1839,6 +1858,128 @@
       const tierValues = { 'S': 1, 'A': 2, 'B': 3, 'C': 4 };
       const total = team.reduce((sum, h) => sum + (tierValues[h.tier] || 3), 0);
       return total / team.length;
+    }
+
+  
+    
+    function getHeroSpecificAdvice(yourHeroId, enemyTeam) {
+      const yourHero = HEROES[yourHeroId];
+      if (!yourHero) return [];
+      
+      const advice = [];
+      
+      // Role-specific advice
+      if (yourHero.role === 'Marksman') {
+        const enemyAssassins = enemyTeam.filter(e => e.role === 'Assassin');
+        if (enemyAssassins.length >= 2) {
+          advice.push({
+            type: 'warning',
+            text: 'You\'re a marksman vs ' + enemyAssassins.length + ' assassins!',
+            tip: '→ Stay with your team. DON\'T farm alone. Buy Guardian Armor early.'
+          });
+        }
+        
+        const enemyTanks = enemyTeam.filter(e => e.role === 'Tank');
+        if (enemyTanks.length >= 2) {
+          advice.push({
+            type: 'info',
+            text: 'Enemy has multiple tanks',
+            tip: '→ Build penetration! (Void Staff, Armor Breaker). Kite back, don\'t face-tank.'
+          });
+        }
+        
+        advice.push({
+          type: 'wincon',
+          text: 'YOUR WIN CONDITION:',
+          tip: '→ Farm safely until 3+ items. Position in backline. Focus objectives after winning teamfights.'
+        });
+      }
+      
+      if (yourHero.role === 'Mage') {
+        const enemyDivers = enemyTeam.filter(e => e.role === 'Assassin' || e.role === 'Fighter');
+        if (enemyDivers.length >= 2) {
+          advice.push({
+            type: 'warning',
+            text: 'Enemy has ' + enemyDivers.length + ' dive threats!',
+            tip: '→ Position carefully! Get Witch Cape or Athena Buckler. Save skills for peel.'
+          });
+        }
+        
+        advice.push({
+          type: 'wincon',
+          text: 'YOUR WIN CONDITION:',
+          tip: '→ Poke before fights. Control mid for vision. Delete backline in teamfights.'
+        });
+      }
+      
+      if (yourHero.role === 'Assassin') {
+        const enemyMarksmen = enemyTeam.filter(e => e.role === 'Marksman');
+        const enemyMages = enemyTeam.filter(e => e.role === 'Mage');
+        
+        if (enemyMarksmen.length >= 1 || enemyMages.length >= 1) {
+          advice.push({
+            type: 'wincon',
+            text: 'YOUR WIN CONDITION:',
+            tip: '→ HUNT their backline! Wait for them to misposition, then DELETE them. Avoid fighting tanks.'
+          });
+        }
+        
+        const enemyTanks = enemyTeam.filter(e => e.role === 'Tank');
+        if (enemyTanks.length >= 2) {
+          advice.push({
+            type: 'info',
+            text: 'Enemy frontline is thicc',
+            tip: '→ Flank around fights. Target squishies only. Don\'t waste burst on tanks.'
+          });
+        }
+      }
+      
+      if (yourHero.role === 'Tank') {
+        advice.push({
+          type: 'wincon',
+          text: 'YOUR WIN CONDITION:',
+          tip: '→ Protect your carries. Engage when your team is ready. Absorb damage and CC.'
+        });
+        
+        const enemyTanks = enemyTeam.filter(e => e.role === 'Tank');
+        if (enemyTanks.length === 0) {
+          advice.push({
+            type: 'info',
+            text: 'Enemy has NO tank!',
+            tip: '→ You can engage super hard! They\'re all squishy. Start fights aggressively.'
+          });
+        }
+      }
+      
+      if (yourHero.role === 'Fighter') {
+        advice.push({
+          type: 'wincon',
+          text: 'YOUR WIN CONDITION:',
+          tip: '→ Split push side lanes. Duel isolated enemies. Join fights when fed.'
+        });
+      }
+      
+      if (yourHero.role === 'Support') {
+        advice.push({
+          type: 'wincon',
+          text: 'YOUR WIN CONDITION:',
+          tip: '→ Protect your carries. Provide vision. Roam to help losing lanes.'
+        });
+      }
+      
+      // Tier-based advice
+      if (yourHero.tier === 'S' || yourHero.tier === 'A') {
+        const highTierEnemies = enemyTeam.filter(e => e.tier === 'S');
+        if (highTierEnemies.length === 0) {
+          advice.push({
+            type: 'info',
+            text: 'You\'re the strongest hero on the map!',
+            tip: '→ Play aggressive. Look for kills. Your champion is meta.'
+          });
+        }
+      }
+      
+      return advice;
     }
 
   </script>
