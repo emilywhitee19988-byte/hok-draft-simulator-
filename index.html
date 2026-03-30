@@ -83,7 +83,7 @@
     </a>
     <div class="header">
       <h1>🎯 HOK Draft Simulator</h1>
-      <p>114 Global Heroes • Smart Counter Suggestions</p>
+      <p>108 Global Heroes • Smart Counter Suggestions</p>
     </div>
     
     <div class="draft-grid">
@@ -142,6 +142,22 @@
         <div id="game-plan" style="margin-top: 20px; padding: 15px; background: rgba(139,92,246,0.1); border-radius: 10px; border: 2px solid rgba(139,92,246,0.3); display: none;">
           <h4 style="color: #a78bfa; margin-bottom: 10px;">🎮 Game Plan</h4>
           <div id="game-plan-content"></div>
+        
+        
+        
+        <div id="ban-recommendations" style="margin-top: 20px; padding: 15px; background: rgba(239,68,68,0.1); border-radius: 10px; border: 2px solid rgba(239,68,68,0.3); display: none;">
+          <h4 style="color: #ef4444; margin-bottom: 10px;">🚫 Ban Recommendations</h4>
+          <div id="ban-recommendations-content"></div>
+        </div>
+        
+        <div id="team-synergy" style="margin-top: 20px; padding: 15px; background: rgba(16,185,129,0.1); border-radius: 10px; border: 2px solid rgba(16,185,129,0.3); display: none;">
+          <h4 style="color: #10b981; margin-bottom: 10px;">🤝 Team Synergy</h4>
+          <div id="team-synergy-content"></div>
+        </div>
+        <div id="lane-matchups" style="margin-top: 20px; padding: 15px; background: rgba(139,92,246,0.1); border-radius: 10px; border: 2px solid rgba(139,92,246,0.3); display: none;">
+          <h4 style="color: #a78bfa; margin-bottom: 10px;">📍 Lane Matchups</h4>
+          <div id="lane-matchups-content"></div>
+        </div>
         </div>
         </div>
       </div>
@@ -155,7 +171,7 @@
       // S-TIER (Meta Defining)
       'jing': {
         id: 'jing',
-        nameEn: 'Jing',
+        nameEn: 'Mirror',
         nameEnAlt: 'Mirror',
         nameCn: '镜',
         role: 'Assassin',
@@ -180,7 +196,7 @@
       },
       'yao': {
         id: 'yao',
-        nameEn: 'Yao',
+        nameEn: 'Enchantress',
         nameEnAlt: 'Yaria',
         nameCn: '瑶',
         role: 'Support',
@@ -195,7 +211,7 @@
       },
       'luban': {
         id: 'luban',
-        nameEn: 'Luban No.7',
+        nameEn: 'Mecha Shooter',
         nameEnAlt: null,
         nameCn: '鲁班七号',
         role: 'Marksman',
@@ -210,7 +226,7 @@
       },
       'daji': {
         id: 'daji',
-        nameEn: 'Daji',
+        nameEn: 'Heart Seeker',
         nameEnAlt: null,
         nameCn: '妲己',
         role: 'Mage',
@@ -225,7 +241,7 @@
       },
       'gaochanggong': {
         id: 'gaochanggong',
-        nameEn: 'Gao Changgong',
+        nameEn: 'Hidden Orchid',
         nameEnAlt: 'Lancelot',
         nameCn: '兰陵王',
         role: 'Assassin',
@@ -240,7 +256,7 @@
       },
       'augran': {
         id: 'augran',
-        nameEn: 'Augran',
+        nameEn: 'Dragon Slayer',
         nameEnAlt: null,
         nameCn: '敖隐',
         role: 'Fighter',
@@ -317,7 +333,7 @@
       // A-TIER (Strong Picks)
       'luna': {
         id: 'luna',
-        nameEn: 'Luna',
+        nameEn: 'Scarlet Moon',
         nameEnAlt: 'Diana',
         nameCn: '露娜',
         role: 'Fighter',
@@ -407,7 +423,7 @@
       },
       'daqiao': {
         id: 'daqiao',
-        nameEn: 'Da Qiao',
+        nameEn: 'Bridge Keeper',
         nameEnAlt: null,
         nameCn: '大乔',
         role: 'Support',
@@ -422,7 +438,7 @@
       },
       'houyi': {
         id: 'houyi',
-        nameEn: 'Hou Yi',
+        nameEn: 'Sun Shooter',
         nameEnAlt: null,
         nameCn: '后羿',
         role: 'Marksman',
@@ -666,7 +682,7 @@
       // C-TIER (Situational)
       'wukong': {
         id: 'wukong',
-        nameEn: 'Wukong',
+        nameEn: 'Monkey King',
         nameEnAlt: 'Sun Wukong',
         nameCn: '孙悟空',
         role: 'Assassin',
@@ -711,7 +727,7 @@
       },
       'zilong': {
         id: 'zilong',
-        nameEn: 'Zilong',
+        nameEn: 'Dragon Warrior',
         nameEnAlt: null,
         nameCn: '赵云',
         role: 'Assassin',
@@ -953,7 +969,7 @@
       },
       'ying': {
         id: 'ying',
-        nameEn: 'Ying',
+        nameEn: 'Princess Frost',
         nameEnAlt: null,
         nameCn: '嬴政',
         role: 'Mage',
@@ -968,7 +984,7 @@
       },
       'zhouyu': {
         id: 'zhouyu',
-        nameEn: 'Zhou Yu',
+        nameEn: 'Fire Tactician',
         nameEnAlt: null,
         nameCn: '周瑜',
         role: 'Mage',
@@ -1028,7 +1044,7 @@
       },
       'guiguzi': {
         id: 'guiguzi',
-        nameEn: 'Guiguzi',
+        nameEn: 'Phantom Sage',
         nameEnAlt: null,
         nameCn: '鬼谷子',
         role: 'Support',
@@ -1073,7 +1089,7 @@
       },
       'pangu': {
         id: 'pangu',
-        nameEn: 'Pangu',
+        nameEn: 'World Creator',
         nameEnAlt: null,
         nameCn: '盘古',
         role: 'Fighter',
@@ -1088,7 +1104,7 @@
       },
       'musashi': {
         id: 'musashi',
-        nameEn: 'Musashi',
+        nameEn: 'Sword Saint',
         nameEnAlt: null,
         nameCn: '宫本武藏',
         role: 'Fighter',
@@ -1133,7 +1149,7 @@
       },
       'mayene': {
         id: 'mayene',
-        nameEn: 'Mayene',
+        nameEn: 'Swift Hunter',
         nameEnAlt: null,
         nameCn: '梦奇',
         role: 'Fighter',
@@ -1294,7 +1310,7 @@
       },
       'baiqi': {
         id: 'baiqi',
-        nameEn: 'Ultimate Weapon',
+        nameEn: 'Blood General',
         nameCn: 'Bai Qi',
         role: 'Tank',
         tier: 'A',
@@ -1314,17 +1330,7 @@
         pickRate: 5.0,
         banRate: 2.0
       },
-      'pangu': {
-        id: 'pangu',
-        nameEn: 'Creator',
-        nameCn: 'Pangu',
-        role: 'Tank',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
+      
       'zhuangzhou': {
         id: 'zhuangzhou',
         nameEn: 'Butterfly Dream',
@@ -1358,31 +1364,11 @@
         pickRate: 5.0,
         banRate: 2.0
       },
-      'mayene': {
-        id: 'mayene',
-        nameEn: 'Swift Blade',
-        nameCn: 'Mayene',
-        role: 'Fighter',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'musashi': {
-        id: 'musashi',
-        nameEn: 'Sword Saint',
-        nameCn: 'Musashi',
-        role: 'Fighter',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
+      
+      
       'xiaoqiao': {
         id: 'xiaoqiao',
-        nameEn: 'Little Qiao',
+        nameEn: 'River Spirit',
         nameCn: 'Xiao Qiao',
         role: 'Fighter',
         tier: 'B',
@@ -1391,17 +1377,7 @@
         pickRate: 5.0,
         banRate: 2.0
       },
-      'zilong': {
-        id: 'zilong',
-        nameEn: 'Dragon Knight',
-        nameCn: 'Zhao Zilong',
-        role: 'Fighter',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
+      
       'arli': {
         id: 'arli',
         nameEn: 'Parasola',
@@ -1426,7 +1402,7 @@
       },
       'kai': {
         id: 'kai',
-        nameEn: 'Blade Dancer',
+        nameEn: 'Blade Master',
         nameCn: 'Kai',
         role: 'Assassin',
         tier: 'A',
@@ -1437,7 +1413,7 @@
       },
       'lanlingwang': {
         id: 'lanlingwang',
-        nameEn: 'Hidden Orchid',
+        nameEn: 'Assassin Prince',
         nameCn: 'Lanling Wang',
         role: 'Assassin',
         tier: 'S',
@@ -1448,7 +1424,7 @@
       },
       'yuange': {
         id: 'yuange',
-        nameEn: 'Heartstring',
+        nameEn: 'Dual Blades',
         nameCn: 'Yuan Ge',
         role: 'Assassin',
         tier: 'A',
@@ -1479,17 +1455,7 @@
         pickRate: 5.0,
         banRate: 2.0
       },
-      'sunbin': {
-        id: 'sunbin',
-        nameEn: 'Tactician',
-        nameCn: 'Sun Bin',
-        role: 'Support',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
+      
       'taiyi': {
         id: 'taiyi',
         nameEn: 'Master Taiyi',
@@ -1503,7 +1469,7 @@
       },
       'zhugeliang': {
         id: 'zhugeliang',
-        nameEn: 'Strategist',
+        nameEn: 'Grand Strategist',
         nameCn: 'Zhuge Liang',
         role: 'Support',
         tier: 'S',
@@ -1514,7 +1480,7 @@
       },
       'ganjiang': {
         id: 'ganjiang',
-        nameEn: 'Ganjiang',
+        nameEn: 'Twin Blades',
         nameCn: 'Ganjiang & Moye',
         role: 'Mage',
         tier: 'A',
@@ -1547,7 +1513,7 @@
       },
       'nvwa': {
         id: 'nvwa',
-        nameEn: 'Nuwa',
+        nameEn: 'Creation Goddess',
         nameCn: 'Nuwa',
         role: 'Mage',
         tier: 'A',
@@ -1677,17 +1643,7 @@
         pickRate: 5.0,
         banRate: 2.0
       },
-      'huangzhong': {
-        id: 'huangzhong',
-        nameEn: 'Faithful Guardian',
-        nameCn: 'Huang Zhong',
-        role: 'Marksman',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
+      
       'jialuo': {
         id: 'jialuo',
         nameEn: 'Spell Dancer',
@@ -1712,7 +1668,7 @@
       },
       'sunshangxiang': {
         id: 'sunshangxiang',
-        nameEn: 'Blazing Musketeer',
+        nameEn: 'Blazing Gunner',
         nameCn: 'Sun Shangxiang',
         role: 'Marksman',
         tier: 'B',
@@ -1807,6 +1763,9 @@
       // Also show build advice
       analyzeBuildAdvice(enemyIds);
       analyzeGamePlan();
+      analyzeLaneMatchups();
+      analyzeBanRecommendations();
+      analyzeTeamSynergy();
     }
     
     function getCounterSuggestions(role, enemyIds) {
@@ -1990,14 +1949,14 @@
       // Analyze enemy weaknesses
       if (!enemyRoles.Tank || enemyRoles.Tank === 0) {
         analysis.enemyWeaknesses.push('⚠️ Enemy has NO TANK - They are squishy! Dive aggressively!');
-        analysis.strategy.push('Play aggressive early, force fights');
+        // Strategy advice added in unified section
       }
       if (enemyRoles.Support === 0) {
         analysis.enemyWeaknesses.push('No support/healer - Poke damage sticks');
       }
       if (enemyRoles.Marksman >= 2) {
         analysis.enemyWeaknesses.push('Multiple marksmen - They need time to scale. END EARLY!');
-        analysis.strategy.push('⚡ RUSH OBJECTIVES! Don\'t let them farm!');
+        // Strategy advice added in unified section
       }
       
       // Identify threats
@@ -2014,19 +1973,37 @@
         analysis.threats.push('💀 S-Tier threats: ' + sTierEnemies.map(h => h.nameEn).join(', ') + ' - Ban in ranked or counter-pick!');
       }
       
-      // Win condition analysis
-      if (yourRoles.Marksman >= 1 && enemyRoles.Assassin >= 2) {
-        analysis.strategy.push('⚠️ Protect your marksman! Enemy has assassins - stick together mid-late game');
-      }
+      // Determine primary strategy (don't add contradictions!)
+      let primaryStrategy = null;
       
+      // Check team composition advantages
       if (yourTeam.length >= 4 && enemyTeam.length >= 4) {
         const yourAvgTier = calculateAvgTier(yourTeam);
         const enemyAvgTier = calculateAvgTier(enemyTeam);
         
-        if (yourAvgTier < enemyAvgTier) {
-          analysis.strategy.push('📊 Your draft is stronger on paper - Play standard and win fights');
-        } else {
-          analysis.strategy.push('📊 Enemy draft is strong - Play smart, pick your fights carefully');
+        if (yourAvgTier < enemyAvgTier - 0.5) {
+          primaryStrategy = 'aggressive';
+          analysis.strategy.push('📊 Your draft is stronger → Play standard, win through better champions');
+        } else if (enemyAvgTier < yourAvgTier - 0.5) {
+          primaryStrategy = 'defensive';
+          analysis.strategy.push('📊 Enemy draft is stronger → Avoid fights, scale to items, make smart plays');
+        }
+      }
+      
+      // Only add aggressive advice if primary strategy isn't defensive
+      if (primaryStrategy !== 'defensive') {
+        if (enemyRoles.Marksman >= 2) {
+          analysis.strategy.push('⚡ Enemy has multiple marksmen → END EARLY! Rush objectives before they scale');
+        }
+        if (!enemyRoles.Tank || enemyRoles.Tank === 0) {
+          analysis.strategy.push('💥 Enemy has NO TANK → Play aggressive, force fights early');
+        }
+      }
+      
+      // Only add defensive advice if primary strategy isn't aggressive
+      if (primaryStrategy !== 'aggressive') {
+        if (yourRoles.Marksman >= 1 && enemyRoles.Assassin >= 2) {
+          analysis.strategy.push('⚠️ Protect your marksman! Enemy has assassins - group mid-late game');
         }
       }
       
@@ -2211,6 +2188,602 @@
       }
       
       return advice;
+    }
+
+      
+    // LANE MATCHUP ANALYSIS SYSTEM
+    function analyzeLaneMatchups() {
+      const yourHeroSelect = document.querySelector('#your-hero-select select');
+      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
+      
+      if (!yourHeroId) {
+        document.getElementById('lane-matchups').style.display = 'none';
+        return;
+      }
+      
+      // Get all heroes
+      const yourHero = HEROES[yourHeroId];
+      const teammates = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
+        .map(id => document.getElementById(id).value)
+        .map(id => id ? HEROES[id] : null)
+        .filter(h => h);
+      
+      const enemies = ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5']
+        .map(id => document.getElementById(id).value)
+        .map(id => id ? HEROES[id] : null)
+        .filter(h => h);
+      
+      if (enemies.length < 3) {
+        document.getElementById('lane-matchups').style.display = 'none';
+        return;
+      }
+      
+      document.getElementById('lane-matchups').style.display = 'block';
+      
+      // Assign lanes based on roles
+      const yourTeam = [yourHero, ...teammates];
+      const laneAssignments = assignLanes(yourTeam, enemies);
+      
+      // Analyze each matchup
+      const matchups = [];
+      const lanes = ['baron', 'mid', 'jungle', 'farm', 'support'];
+      
+      lanes.forEach(lane => {
+        if (laneAssignments.your[lane] && laneAssignments.enemy[lane]) {
+          const result = evaluateMatchup(
+            laneAssignments.your[lane], 
+            laneAssignments.enemy[lane],
+            lane
+          );
+          matchups.push({
+            lane: lane,
+            yourHero: laneAssignments.your[lane],
+            enemyHero: laneAssignments.enemy[lane],
+            result: result
+          });
+        }
+      });
+      
+      // Display results
+      displayLaneMatchups(matchups);
+    }
+    
+    function assignLanes(yourTeam, enemyTeam) {
+      const assignments = {
+        your: {},
+        enemy: {}
+      };
+      
+      // Simple lane assignment logic
+      function assignTeam(team, side) {
+        const assigned = {};
+        
+        // Mage → Mid
+        const mage = team.find(h => h.role === 'Mage' && !assigned[h.id]);
+        if (mage) { assignments[side].mid = mage; assigned[mage.id] = true; }
+        
+        // Marksman → Farm
+        const marksman = team.find(h => h.role === 'Marksman' && !assigned[h.id]);
+        if (marksman) { assignments[side].farm = marksman; assigned[marksman.id] = true; }
+        
+        // Assassin → Jungle (prefer) or Mid
+        const assassin = team.find(h => h.role === 'Assassin' && !assigned[h.id]);
+        if (assassin) { 
+          if (!assignments[side].jungle) {
+            assignments[side].jungle = assassin;
+          } else if (!assignments[side].mid) {
+            assignments[side].mid = assassin;
+          }
+          assigned[assassin.id] = true;
+        }
+        
+        // Tank → Baron or Support
+        const tank = team.find(h => h.role === 'Tank' && !assigned[h.id]);
+        if (tank) {
+          if (!assignments[side].baron) {
+            assignments[side].baron = tank;
+          } else {
+            assignments[side].support = tank;
+          }
+          assigned[tank.id] = true;
+        }
+        
+        // Fighter → Baron or Jungle
+        const fighter = team.find(h => h.role === 'Fighter' && !assigned[h.id]);
+        if (fighter) {
+          if (!assignments[side].baron) {
+            assignments[side].baron = fighter;
+          } else if (!assignments[side].jungle) {
+            assignments[side].jungle = fighter;
+          }
+          assigned[fighter.id] = true;
+        }
+        
+        // Support → Support
+        const support = team.find(h => h.role === 'Support' && !assigned[h.id]);
+        if (support) { assignments[side].support = support; assigned[support.id] = true; }
+        
+        // Fill remaining
+        team.forEach(h => {
+          if (!assigned[h.id]) {
+            if (!assignments[side].baron) assignments[side].baron = h;
+            else if (!assignments[side].jungle) assignments[side].jungle = h;
+            else if (!assignments[side].support) assignments[side].support = h;
+          }
+        });
+      }
+      
+      assignTeam(yourTeam, 'your');
+      assignTeam(enemyTeam, 'enemy');
+      
+      return assignments;
+    }
+    
+    function evaluateMatchup(yourHero, enemyHero, lane) {
+      let score = 0;  // Positive = you win, Negative = you lose
+      
+      // Check if you counter them
+      if (yourHero.counters) {
+        Object.keys(yourHero.counters).forEach(counterLane => {
+          const laneCounters = yourHero.counters[counterLane];
+          if (laneCounters && laneCounters.strong) {
+            if (laneCounters.strong.includes(enemyHero.id)) {
+              score += 3;  // Strong counter
+            }
+          }
+        });
+      }
+      
+      // Check if they counter you
+      if (enemyHero.counters) {
+        Object.keys(enemyHero.counters).forEach(counterLane => {
+          const laneCounters = enemyHero.counters[counterLane];
+          if (laneCounters && laneCounters.strong) {
+            if (laneCounters.strong.includes(yourHero.id)) {
+              score -= 3;  // They counter you
+            }
+          }
+        });
+      }
+      
+      // Tier advantage
+      const tierValue = { 'S': 3, 'A': 2, 'B': 1, 'C': 0 };
+      const yourTier = tierValue[yourHero.tier] || 1;
+      const enemyTier = tierValue[enemyHero.tier] || 1;
+      score += (yourTier - enemyTier);
+      
+      // Role matchups
+      const roleMatchups = {
+        'Tank': { 'Fighter': 1, 'Assassin': -1, 'Mage': -1 },
+        'Fighter': { 'Marksman': 2, 'Mage': 1, 'Tank': -1 },
+        'Assassin': { 'Mage': 2, 'Marksman': 2, 'Tank': -2 },
+        'Mage': { 'Tank': 1, 'Fighter': -1, 'Assassin': -2 },
+        'Marksman': { 'Tank': 1, 'Fighter': -2, 'Assassin': -2 },
+        'Support': { 'Assassin': -1 }
+      };
+      
+      if (roleMatchups[yourHero.role] && roleMatchups[yourHero.role][enemyHero.role]) {
+        score += roleMatchups[yourHero.role][enemyHero.role];
+      }
+      
+      // Determine result
+      let verdict, advice;
+      if (score >= 3) {
+        verdict = 'favorable';
+        advice = 'Play aggressive! You win this matchup. Push advantage early.';
+      } else if (score >= 1) {
+        verdict = 'slight_favor';
+        advice = 'You have a slight edge. Trade carefully and look for kills.';
+      } else if (score >= -1) {
+        verdict = 'even';
+        advice = 'Skill matchup. Focus on farming and avoid mistakes.';
+      } else if (score >= -3) {
+        verdict = 'slight_danger';
+        advice = 'Difficult matchup. Play safe and wait for ganks.';
+      } else {
+        verdict = 'danger';
+        advice = 'HARD COUNTER! Farm under tower. Ask for jungle help.';
+      }
+      
+      return { verdict, advice, score };
+    }
+    
+    function displayLaneMatchups(matchups) {
+      const container = document.getElementById('lane-matchups-content');
+      
+      const laneNames = {
+        'baron': '🏰 Baron Lane',
+        'mid': '⚔️ Mid Lane',
+        'jungle': '🌲 Jungle',
+        'farm': '🎯 Farm Lane',
+        'support': '💚 Support/Roam'
+      };
+      
+      const verdictColors = {
+        'favorable': '#10b981',
+        'slight_favor': '#34d399',
+        'even': '#f59e0b',
+        'slight_danger': '#fb923c',
+        'danger': '#ef4444'
+      };
+      
+      const verdictLabels = {
+        'favorable': '✅ FAVORABLE',
+        'slight_favor': '✓ SLIGHT EDGE',
+        'even': '⚖️ EVEN',
+        'slight_danger': '⚠ CAREFUL',
+        'danger': '❌ DANGER'
+      };
+      
+      let html = '';
+      let favorable = 0, danger = 0;
+      
+      matchups.forEach(m => {
+        if (m.result.verdict === 'favorable' || m.result.verdict === 'slight_favor') favorable++;
+        if (m.result.verdict === 'danger' || m.result.verdict === 'slight_danger') danger++;
+        
+        const color = verdictColors[m.result.verdict];
+        const label = verdictLabels[m.result.verdict];
+        
+        html += '<div style="background: rgba(51,65,85,0.6); padding: 12px; margin: 10px 0; border-radius: 8px; border-left: 4px solid ' + color + ';">';
+        html += '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">';
+        html += '<strong style="color: #e2e8f0;">' + laneNames[m.lane] + '</strong>';
+        html += '<span style="color: ' + color + '; font-weight: 600;">' + label + '</span>';
+        html += '</div>';
+        html += '<div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 6px;">';
+        html += (m.yourHero.nameEn || m.yourHero.nameCn) + ' vs ' + (m.enemyHero.nameEn || m.enemyHero.nameCn);
+        html += '</div>';
+        html += '<div style="color: #e2e8f0; font-size: 0.9rem;">→ ' + m.result.advice + '</div>';
+        html += '</div>';
+      });
+      
+      // Overall verdict
+      html = '<div style="background: rgba(139,92,246,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #a78bfa;"><strong style="color: #a78bfa;">📊 LANE PHASE VERDICT:</strong><div style="margin-top: 6px; color: #e2e8f0;">';
+      
+      const totalLanes = matchups.length;
+      const wonLanes = favorable;
+      const lostLanes = danger;
+      
+      if (wonLanes >= 3) {
+        html += '✅ You win ' + wonLanes + '/' + totalLanes + ' lanes → <strong style="color: #10b981;">PLAY AGGRESSIVE EARLY!</strong> Push your advantages.';
+      } else if (lostLanes >= 3) {
+        html += '⚠️ You lose ' + lostLanes + '/' + totalLanes + ' lanes → <strong style="color: #f59e0b;">FARM SAFE, SCALE UP!</strong> Avoid early fights.';
+      } else {
+        html += '⚖️ Lanes are balanced (' + wonLanes + ' won, ' + lostLanes + ' lost) → <strong style="color: #60a5fa;">SKILL MATCHUP!</strong> Win through better plays.';
+      }
+      
+      html += '</div></div>' + html;
+      
+      container.innerHTML = html;
+    }
+
+      
+    // BAN PHASE HELPER
+    function analyzeBanRecommendations() {
+      const yourHeroSelect = document.querySelector('#your-hero-select select');
+      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
+      
+      const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
+        .map(id => document.getElementById(id).value)
+        .filter(v => v);
+      
+      // Show bans when you pick your hero
+      if (!yourHeroId) {
+        document.getElementById('ban-recommendations').style.display = 'none';
+        return;
+      }
+      
+      // Always show the section, even if no specific threats
+      document.getElementById('ban-recommendations').style.display = 'block';
+      
+      const yourTeam = [yourHeroId, ...teammateIds].map(id => HEROES[id]).filter(h => h);
+      
+      // Calculate ban priorities
+      const banCandidates = [];
+      
+      Object.values(HEROES).forEach(hero => {
+        let banScore = 0;
+        let reasons = [];
+        
+        // S-tier heroes are always ban-worthy
+        if (hero.tier === 'S') {
+          banScore += 5;
+          reasons.push('S-tier meta pick - Always dangerous');
+        } else if (hero.tier === 'A') {
+          banScore += 2;
+          reasons.push('A-tier strong pick');
+        }
+        
+        // Check if hero counters anyone on your team
+        let countersYourTeam = 0;
+        yourTeam.forEach(ally => {
+          if (hero.counters) {
+            Object.keys(hero.counters).forEach(lane => {
+              const laneCounters = hero.counters[lane];
+              if (laneCounters && laneCounters.strong) {
+                if (laneCounters.strong.includes(ally.id)) {
+                  banScore += 4;
+                  countersYourTeam++;
+                }
+              }
+            });
+          }
+        });
+        
+        if (countersYourTeam > 0) {
+          reasons.push(`Counters ${countersYourTeam} of your heroes`);
+        }
+        
+        // Popular/annoying heroes
+        const annoying = ['yao', 'guiguzi', 'jing', 'daji', 'lanlingwang', 'augran'];
+        if (annoying.includes(hero.id)) {
+          banScore += 3;
+          reasons.push('High impact, hard to deal with');
+        }
+        
+        // Protect your marksman from assassins
+        const yourMarksmen = yourTeam.filter(h => h.role === 'Marksman');
+        if (yourMarksmen.length > 0 && hero.role === 'Assassin' && hero.tier === 'S') {
+          banScore += 3;
+          reasons.push('Assassin that threatens your marksman');
+        }
+        
+        // Protect your mage from dive
+        const yourMages = yourTeam.filter(h => h.role === 'Mage');
+        if (yourMages.length > 0 && (hero.role === 'Assassin' || hero.role === 'Fighter') && hero.tier === 'S') {
+          banScore += 2;
+          reasons.push('Dive threat to your mage');
+        }
+        
+        if (banScore >= 2 && reasons.length > 0) {
+          banCandidates.push({
+            hero: hero,
+            score: banScore,
+            reasons: reasons
+          });
+        }
+      });
+      
+      // Sort by score
+      banCandidates.sort((a, b) => b.score - a.score);
+      
+      // Display top 5 bans
+      displayBanRecommendations(banCandidates.slice(0, 5));
+    }
+    
+    function displayBanRecommendations(bans) {
+      const container = document.getElementById('ban-recommendations-content');
+      
+      if (bans.length === 0) {
+        container.innerHTML = '<p style="color: #94a3b8;">Pick your hero to see ban recommendations</p>';
+        return;
+      }
+      
+      let html = '<div style="margin-bottom: 12px; color: #e2e8f0;">';
+      html += '<strong style="color: #ef4444;">🚫 Recommended Bans (in priority order):</strong>';
+      html += '</div>';
+      
+      bans.forEach((ban, index) => {
+        const priority = index === 0 ? '🔴 TOP PRIORITY' : index === 1 ? '🟠 HIGH' : '🟡 MEDIUM';
+        const priorityColor = index === 0 ? '#ef4444' : index === 1 ? '#f59e0b' : '#eab308';
+        
+        html += '<div style="background: rgba(51,65,85,0.6); padding: 12px; margin: 10px 0; border-radius: 8px; border-left: 4px solid ' + priorityColor + ';">';
+        html += '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">';
+        html += '<strong style="color: #e2e8f0; font-size: 1.05rem;">' + (ban.hero.nameEn || ban.hero.nameCn) + '</strong>';
+        html += '<span style="color: ' + priorityColor + '; font-weight: 600; font-size: 0.85rem;">' + priority + '</span>';
+        html += '</div>';
+        
+        html += '<div style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 8px;">';
+        html += ban.hero.role + ' • Tier ' + ban.hero.tier;
+        html += '</div>';
+        
+        html += '<div style="color: #e2e8f0; font-size: 0.9rem;">';
+        html += '<strong style="color: #60a5fa;">Why ban:</strong>';
+        html += '<ul style="margin: 4px 0 0 20px;">';
+        ban.reasons.forEach(reason => {
+          html += '<li style="margin: 2px 0;">' + reason + '</li>';
+        });
+        html += '</ul>';
+        html += '</div>';
+        html += '</div>';
+      });
+      
+      container.innerHTML = html;
+    }
+
+      
+    // TEAM SYNERGY ANALYSIS
+    function analyzeTeamSynergy() {
+      const yourHeroSelect = document.querySelector('#your-hero-select select');
+      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
+      
+      if (!yourHeroId) {
+        document.getElementById('team-synergy').style.display = 'none';
+        return;
+      }
+      
+      const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
+        .map(id => document.getElementById(id).value)
+        .filter(v => v);
+      
+      if (teammateIds.length < 2) {
+        document.getElementById('team-synergy').style.display = 'none';
+        return;
+      }
+      
+      document.getElementById('team-synergy').style.display = 'block';
+      
+      const yourTeam = [HEROES[yourHeroId], ...teammateIds.map(id => HEROES[id])].filter(h => h);
+      
+      const synergies = findSynergies(yourTeam);
+      const antiSynergies = findAntiSynergies(yourTeam);
+      
+      displaySynergies(synergies, antiSynergies);
+    }
+    
+    function findSynergies(team) {
+      const synergies = [];
+      
+      // Known combo pairs
+      const combos = {
+        'yao': { partners: ['jing', 'augran', 'luna'], reason: 'Yao attaches for mobility + damage boost' },
+        'guiguzi': { partners: ['houyi', 'luban', 'marcopolo'], reason: 'Guiguzi invisibility → Perfect setup for ADC' },
+        'daji': { partners: ['gaochanggong', 'lanlingwang'], reason: 'Mage burst + Assassin cleanup combo' },
+        'ming': { partners: ['luban', 'houyi'], reason: 'Ming shields enable aggressive positioning' },
+        'donghuang': { partners: ['jing', 'gaochanggong'], reason: 'Ultimate lockdown → Easy assassin follow-up' },
+        'athena': { partners: ['luban', 'marcopolo'], reason: 'Global ult to protect marksman' },
+      };
+      
+      team.forEach((hero1, i) => {
+        if (combos[hero1.id]) {
+          team.forEach((hero2, j) => {
+            if (i !== j && combos[hero1.id].partners.includes(hero2.id)) {
+              synergies.push({
+                heroes: [hero1, hero2],
+                reason: combos[hero1.id].reason
+              });
+            }
+          });
+        }
+      });
+      
+      // Role synergies
+      const tanks = team.filter(h => h.role === 'Tank');
+      const supports = team.filter(h => h.role === 'Support');
+      const marksmen = team.filter(h => h.role === 'Marksman');
+      const assassins = team.filter(h => h.role === 'Assassin');
+      
+      if (tanks.length >= 1 && marksmen.length >= 1) {
+        synergies.push({
+          type: 'role',
+          reason: 'Tank frontline protects marksman → Standard comp structure'
+        });
+      }
+      
+      if (supports.length >= 1 && (marksmen.length >= 1 || assassins.length >= 1)) {
+        synergies.push({
+          type: 'role',
+          reason: 'Support enables carries → Good peel and utility'
+        });
+      }
+      
+      if (assassins.length >= 1 && team.some(h => h.role === 'Mage')) {
+        synergies.push({
+          type: 'role',
+          reason: 'Mage poke + Assassin dive → Poke then execute strategy'
+        });
+      }
+      
+      return synergies;
+    }
+    
+    function findAntiSynergies(team) {
+      const issues = [];
+      
+      // Count damage types
+      const physical = team.filter(h => 
+        h.role === 'Marksman' || h.role === 'Assassin' || h.role === 'Fighter'
+      ).length;
+      const magical = team.filter(h => h.role === 'Mage').length;
+      
+      if (physical >= 4 && magical === 0) {
+        issues.push({
+          type: 'damage',
+          severity: 'high',
+          problem: 'All physical damage (no magic)',
+          solution: 'Enemy will stack armor. Very easy to itemize against you.'
+        });
+      } else if (physical >= 3 && magical <= 1) {
+        issues.push({
+          type: 'damage',
+          severity: 'medium',
+          problem: 'Too much physical damage (' + physical + ' heroes)',
+          solution: 'Enemy can build armor. Consider adding magic damage.'
+        });
+      }
+      
+      if (magical >= 3 && physical <= 1) {
+        issues.push({
+          type: 'damage',
+          severity: 'medium',
+          problem: 'Too much magic damage',
+          solution: 'Enemy will build magic resist. Need more physical threat.'
+        });
+      }
+      
+      // Multiple of same role
+      const roles = {};
+      team.forEach(h => roles[h.role] = (roles[h.role] || 0) + 1);
+      
+      if (roles.Marksman >= 3) {
+        issues.push({
+          type: 'composition',
+          severity: 'high',
+          problem: '3+ marksmen = Very weak early game',
+          solution: 'All need farm. Will get run over early. Extremely risky.'
+        });
+      }
+      
+      if (roles.Assassin >= 3) {
+        issues.push({
+          type: 'composition',
+          severity: 'medium',
+          problem: '3+ assassins = Squishy, no frontline',
+          solution: 'Hard to teamfight. Must snowball early or lose.'
+        });
+      }
+      
+      // No tank or support
+      if (!roles.Tank && !roles.Support) {
+        issues.push({
+          type: 'composition',
+          severity: 'medium',
+          problem: 'No tank or support = Fragile team',
+          solution: 'Hard to engage teamfights. Vulnerable to enemy engage.'
+        });
+      }
+      
+      return issues;
+    }
+    
+    function displaySynergies(synergies, issues) {
+      const container = document.getElementById('team-synergy-content');
+      let html = '';
+      
+      // Show synergies
+      if (synergies.length > 0) {
+        html += '<div style="margin-bottom: 15px;"><strong style="color: #10b981;">💎 STRONG SYNERGIES:</strong>';
+        synergies.forEach(syn => {
+          html += '<div style="background: rgba(16,185,129,0.15); padding: 10px; margin: 8px 0; border-radius: 8px; border-left: 3px solid #10b981;">';
+          if (syn.heroes) {
+            html += '<div style="color: #e2e8f0; font-weight: 600;">';
+            html += (syn.heroes[0].nameEn || syn.heroes[0].nameCn) + ' + ' + (syn.heroes[1].nameEn || syn.heroes[1].nameCn);
+            html += '</div>';
+          }
+          html += '<div style="color: #94a3b8; font-size: 0.9rem; margin-top: 4px;">→ ' + syn.reason + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+      
+      // Show anti-synergies / issues
+      if (issues.length > 0) {
+        html += '<div><strong style="color: #ef4444;">⚠️ COMPOSITION ISSUES:</strong>';
+        issues.forEach(issue => {
+          const borderColor = issue.severity === 'high' ? '#ef4444' : '#f59e0b';
+          html += '<div style="background: rgba(239,68,68,0.15); padding: 10px; margin: 8px 0; border-radius: 8px; border-left: 3px solid ' + borderColor + ';">';
+          html += '<div style="color: #ef4444; font-weight: 600;">' + issue.problem + '</div>';
+          html += '<div style="color: #e2e8f0; font-size: 0.9rem; margin-top: 4px;">→ ' + issue.solution + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+      
+      if (synergies.length === 0 && issues.length === 0) {
+        html = '<p style="color: #94a3b8;">Pick more teammates to see synergy analysis</p>';
+      }
+      
+      container.innerHTML = html;
     }
 
   </script>
