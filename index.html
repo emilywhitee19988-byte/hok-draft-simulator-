@@ -7,8 +7,8 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #e2e8f0;
       min-height: 100vh;
       padding: 20px;
@@ -23,72 +23,52 @@
       border: 2px solid #3b82f6;
     }
     .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    .draft-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .panel {
-      background: rgba(30, 41, 59, 0.6);
-      padding: 20px;
-      border-radius: 15px;
-      border: 2px solid #334155;
-    }
+    .draft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .panel { background: rgba(30, 41, 59, 0.6); padding: 20px; border-radius: 15px; border: 2px solid #334155; }
     .panel h2 { color: #60a5fa; margin-bottom: 15px; }
-    .role-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
+    .role-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin: 15px 0; }
     .role-btn {
-      padding: 12px 24px;
-      background: #1e293b;
-      border: 2px solid #334155;
-      border-radius: 8px;
-      color: #94a3b8;
-      cursor: pointer;
-      font-weight: 600;
+      padding: 10px 18px; background: #1e293b; border: 2px solid #334155;
+      border-radius: 8px; color: #94a3b8; cursor: pointer; font-weight: 600; transition: 0.2s;
     }
-    .role-btn.active {
-      background: #3b82f6;
-      border-color: #3b82f6;
-      color: white;
-    }
+    .role-btn.active { background: #3b82f6; border-color: #3b82f6; color: white; box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
     .hero-select {
-      width: 100%;
-      padding: 12px;
-      background: #1e293b;
-      border: 2px solid #334155;
-      border-radius: 8px;
-      color: #e2e8f0;
-      font-size: 1rem;
-      margin: 10px 0;
+      width: 100%; padding: 12px; background: #1e293b; border: 2px solid #334155;
+      border-radius: 8px; color: #e2e8f0; font-size: 1rem; margin: 10px 0;
     }
-    @media (max-width: 768px) {
-      .draft-grid { grid-template-columns: 1fr; }
+    .lane-label { font-size: 0.85rem; color: #94a3b8; margin-top: 10px; display: block; font-weight: 600; }
+    .info-section { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
+    .build-card { background: rgba(251, 191, 36, 0.1); border-left: 4px solid #fbbf24; padding: 10px; border-radius: 6px; margin-top: 10px; }
+    
+    /* 📱 MOBILE OPTIMIZATIONS (Only affects phones) */
+    @media (max-width: 768px) { 
+      body { padding: 10px; }
+      .draft-grid { grid-template-columns: 1fr; gap: 15px; }
+      .header { padding: 15px; margin-bottom: 20px; }
+      .header h1 { font-size: 1.8rem; }
+      .header p { font-size: 0.9rem; }
+      .panel { padding: 15px; }
+      .role-buttons { justify-content: space-between; gap: 6px; }
+      .role-btn { 
+        flex: 1 1 calc(33% - 10px); /* Creates a neat 3x2 grid for the role buttons */
+        padding: 10px 5px; 
+        font-size: 0.85rem; 
+        text-align: center;
+      }
+      .hero-select { padding: 14px 10px; font-size: 0.95rem; } /* Larger touch target for thumbs */
     }
   </style>
 </head>
 <body>
-    <div class="container">
-    <a href="https://hok-english-guide.vercel.app/" style="
-      display: inline-block;
-      margin-bottom: 20px;
-      padding: 10px 20px;
-      background: rgba(59, 130, 246, 0.2);
-      border: 2px solid #3b82f6;
-      border-radius: 8px;
-      color: #60a5fa;
-      text-decoration: none;
-      transition: all 0.3s;
-    " onmouseover="this.style.background='rgba(59,130,246,0.3)'; this.style.transform='translateX(-5px)';"
-       onmouseout="this.style.background='rgba(59,130,246,0.2)'; this.style.transform='translateX(0)';">
-      🏠 View Tier List
-    </a>
+  <div class="container">
     <div class="header">
       <h1>🎯 HOK Draft Simulator</h1>
-      <p>108 Global Heroes • Smart Counter Suggestions</p>
+      <p>114+ Full Hero Roster • AI Strategy • Situational Itemization</p>
     </div>
-    
+
     <div class="draft-grid">
       <div class="panel">
-        <h2>👤 Your Pick</h2>
+        <h2>👤 Your Selection</h2>
         <div class="role-buttons">
           <button class="role-btn" onclick="selectRole('Tank')">Tank</button>
           <button class="role-btn" onclick="selectRole('Fighter')">Fighter</button>
@@ -98,2959 +78,317 @@
           <button class="role-btn" onclick="selectRole('Support')">Support</button>
         </div>
         <div id="your-hero-select"></div>
-        
-        <h3 style="margin-top: 20px; color: #60a5fa;">👥 Your Teammates</h3>
-        <select class="hero-select" id="teammate1" onchange="updateAnalysis()">
-          <option value="">Teammate 1</option>
-        </select>
-        <select class="hero-select" id="teammate2" onchange="updateAnalysis()">
-          <option value="">Teammate 2</option>
-        </select>
-        <select class="hero-select" id="teammate3" onchange="updateAnalysis()">
-          <option value="">Teammate 3</option>
-        </select>
-        <select class="hero-select" id="teammate4" onchange="updateAnalysis()">
-          <option value="">Teammate 4</option>
-        </select>
-      </div>
-        
-        <div id="power-spike" style="margin-top: 20px; padding: 15px; background: rgba(59,130,246,0.1); border-radius: 10px; border: 2px solid rgba(59,130,246,0.3); display: none;">
-          <h4 style="color: #60a5fa; margin-bottom: 10px;">⚡ Your Power Spikes</h4>
+
+        <h3 style="margin-top:20px; color:#60a5fa;">👥 Your Teammates</h3>
+        <div id="teammate-slots">
+          <p style="color: #94a3b8; font-size: 0.9rem;">Select your role to fill the remaining lanes.</p>
+        </div>
+
+        <div id="power-spike" class="info-section" style="background:rgba(30, 41, 59, 0.8); border: 1px solid #3b82f6;">
+          <h4 style="color:#60a5fa; margin-bottom:15px;">⚡ Power Spikes & Timeline</h4>
           <div id="power-spike-content"></div>
         </div>
-      
+      </div>
+
       <div class="panel">
         <h2>⚔️ Enemy Team</h2>
-        <select class="hero-select" id="enemy1" onchange="updateAnalysis()">
-          <option value="">Enemy Pick 1</option>
-        </select>
-        <select class="hero-select" id="enemy2" onchange="updateAnalysis()">
-          <option value="">Enemy Pick 2</option>
-        </select>
-        <select class="hero-select" id="enemy3" onchange="updateAnalysis()">
-          <option value="">Enemy Pick 3</option>
-        </select>
-        <select class="hero-select" id="enemy4" onchange="updateAnalysis()">
-          <option value="">Enemy Pick 4</option>
-        </select>
-        <select class="hero-select" id="enemy5" onchange="updateAnalysis()">
-          <option value="">Enemy Pick 5</option>
-        </select>
-        <div id="suggestions" style="margin-top: 20px; padding: 15px; background: rgba(16,185,129,0.1); border-radius: 10px;">
-          <h4 style="color: #10b981;">💡 Pick enemies to see suggestions</h4>
+        <span class="lane-label">🏰 Clash Lane</span><select class="hero-select" id="en_clash" onchange="updateAnalysis()"></select>
+        <span class="lane-label">🌲 Jungle</span><select class="hero-select" id="en_jungle" onchange="updateAnalysis()"></select>
+        <span class="lane-label">⚔️ Mid Lane</span><select class="hero-select" id="en_mid" onchange="updateAnalysis()"></select>
+        <span class="lane-label">🎯 Farm Lane</span><select class="hero-select" id="en_farm" onchange="updateAnalysis()"></select>
+        <span class="lane-label">✨ Roam/Support</span><select class="hero-select" id="en_support" onchange="updateAnalysis()"></select>
+
+        <div id="ban-recommendations" class="info-section" style="display:block; background:rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);">
+          <h4 style="color:#ef4444; margin-bottom:10px;">🚫 Recommended Bans</h4>
+          <div id="ban-content">Select your draft to see bans.</div>
         </div>
-        
-        <div id="build-advice" style="margin-top: 20px; padding: 15px; background: rgba(251,191,36,0.1); border-radius: 10px; border: 2px solid rgba(251,191,36,0.3); display: none;">
-          <h4 style="color: #fbbf24; margin-bottom: 10px;">⚔️ Build Advice</h4>
-          <div id="build-content"></div>
+
+        <div id="build-advice" class="info-section" style="display:block; background:rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.3);">
+          <h4 style="color:#fbbf24; margin-bottom:10px;">🛠️ AI Situational Build</h4>
+          <div id="build-content">Waiting for picks...</div>
         </div>
-        
-        <div id="game-plan" style="margin-top: 20px; padding: 15px; background: rgba(139,92,246,0.1); border-radius: 10px; border: 2px solid rgba(139,92,246,0.3); display: none;">
-          <h4 style="color: #a78bfa; margin-bottom: 10px;">🎮 Game Plan</h4>
-          <div id="game-plan-content"></div>
-        </div>
-        
-        <div id="ban-recommendations" style="margin-top: 20px; padding: 15px; background: rgba(239,68,68,0.1); border-radius: 10px; border: 2px solid rgba(239,68,68,0.3); display: none;">
-          <h4 style="color: #ef4444; margin-bottom: 10px;">🚫 Ban Recommendations</h4>
-          <div id="ban-recommendations-content"></div>
-        </div>
-        
-        <div id="team-synergy" style="margin-top: 20px; padding: 15px; background: rgba(16,185,129,0.1); border-radius: 10px; border: 2px solid rgba(16,185,129,0.3); display: none;">
-          <h4 style="color: #10b981; margin-bottom: 10px;">🤝 Team Synergy</h4>
-          <div id="team-synergy-content"></div>
-        </div>
-        <div id="lane-matchups" style="margin-top: 20px; padding: 15px; background: rgba(139,92,246,0.1); border-radius: 10px; border: 2px solid rgba(139,92,246,0.3); display: none;">
-          <h4 style="color: #a78bfa; margin-bottom: 10px;">📍 Lane Matchups</h4>
-          <div id="lane-matchups-content"></div>
-        </div>
-        </div>
+
+        <div id="ai-strategy" class="info-section" style="display:block; background:rgba(16, 185, 129, 0.1); border-radius: 10px;">
+          <h4 style="color:#10b981; margin-bottom:10px;">💡 AI Win Condition & Roam</h4>
+          <div id="strategy-content">Select your draft to start analysis.</div>
         </div>
       </div>
     </div>
   </div>
-  
+
   <script>
-
-    // HEROES DATA FROM WORKING TIER LIST
     const HEROES = {
-      // S-TIER (Meta Defining)
-      'jing': {
-        id: 'jing',
-        nameEn: 'Mirror',
-        nameEnAlt: 'Mirror',
-        nameCn: '镜',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: ['Mid'],
-        tier: 'S',
-        difficulty: 4,
-        winRate: 54.2,
-        pickRate: 23.0,
-        banRate: 45.0,
-        avatar: '🗡️',
-        counters: {
-          jungle: {
-            weak: ['lam', 'xuance', 'donghuang', 'caiyan'],
-            strong: ['daji', 'angela', 'luban', 'houyi', 'ying']
-          },
-          mid: {
-            weak: ['diaochan', 'yao', 'zhouyu'],
-            strong: ['angela', 'ying', 'huangzhong']
-          }
-        }
-      },
-      'yao': {
-        id: 'yao',
-        nameEn: 'Enchantress',
-        nameEnAlt: 'Yaria',
-        nameCn: '瑶',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'S',
-        difficulty: 2,
-        winRate: 53.8,
-        pickRate: 19.0,
-        banRate: 38.0,
-        avatar: '🦋'
-      },
-      'luban': {
-        id: 'luban',
-        nameEn: 'Mecha Shooter',
-        nameEnAlt: null,
-        nameCn: '鲁班七号',
-        role: 'Marksman',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'S',
-        difficulty: 1,
-        winRate: 52.9,
-        pickRate: 22.0,
-        banRate: 15.0,
-        avatar: '🤖'
-      },
-      'daji': {
-        id: 'daji',
-        nameEn: 'Heart Seeker',
-        nameEnAlt: null,
-        nameCn: '妲己',
-        role: 'Mage',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'S',
-        difficulty: 2,
-        winRate: 53.5,
-        pickRate: 18.0,
-        banRate: 25.0,
-        avatar: '🦊'
-      },
-      'haya': { 
-        id: 'haya', 
-        nameCn: '不知火舞', 
-        nameEn: 'Everfrost',
-        role: 'Mage',
-        tier: 'A'
-      },
-      'gaochanggong': {
-        id: 'gaochanggong',
-        nameEn: 'Hidden Orchid',
-        nameEnAlt: 'Lancelot',
-        nameCn: '兰陵王',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: ['Mid'],
-        tier: 'S',
-        difficulty: 3,
-        winRate: 52.8,
-        pickRate: 20.0,
-        banRate: 35.0,
-        avatar: '👤'
-      },
-      'augran': {
-        id: 'augran',
-        nameEn: 'Dragon Slayer',
-        nameEnAlt: null,
-        nameCn: '敖隐',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: ['Baron'],
-        tier: 'S',
-        difficulty: 3,
-        winRate: 53.2,
-        pickRate: 21.0,
-        banRate: 42.0,
-        avatar: '🐉'
-      },
-      'arke': {
-        id: 'arke',
-        nameEn: 'Arke',
-        nameEnAlt: null,
-        nameCn: '阿古朵',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'S',
-        difficulty: 2,
-        winRate: 52.7,
-        pickRate: 17.0,
-        banRate: 28.0,
-        avatar: '🎯'
-      },
-      'feyd': {
-        id: 'feyd',
-        nameEn: 'Feyd',
-        nameEnAlt: null,
-        nameCn: '费奥',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'S',
-        difficulty: 3,
-        winRate: 52.5,
-        pickRate: 16.0,
-        banRate: 30.0,
-        avatar: '⚡'
-      },
-      'chicha': {
-        id: 'chicha',
-        nameEn: 'Chicha',
-        nameEnAlt: null,
-        nameCn: '姬小满',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'S',
-        difficulty: 2,
-        winRate: 52.6,
-        pickRate: 15.0,
-        banRate: 20.0,
-        avatar: '🌸'
-      },
-      'lam': {
-        id: 'lam',
-        nameEn: 'Lam',
-        nameEnAlt: 'Lan',
-        nameCn: '澜',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: ['Baron'],
-        tier: 'S',
-        difficulty: 3,
-        winRate: 52.3,
-        pickRate: 14.0,
-        banRate: 25.0,
-        avatar: '🌊'
-      },
+      // 114+ HERO MASTER DATABASE
+      // Tanks
+      'kaizer': { name: 'Demonplate (Kaizer)', role: 'Tank', tier: 'S', lanes: ['Clash', 'Jungle'], tags: ['Tanky', 'Burst'] },
+      'donghuang': { name: 'Harbinger (Donghuang)', role: 'Tank', tier: 'S', lanes: ['Support'], tags: ['Hard CC'] },
+      'liushan': { name: 'Mecha Brat (Liushan)', role: 'Tank', tier: 'B', lanes: ['Support'], tags: ['Push', 'CC'] },
+      'wuyan': { name: 'Sledgehammer (Wuyan)', role: 'Tank', tier: 'B', lanes: ['Clash', 'Support'], tags: ['Burst', 'CC'] },
+      'ata': { name: 'White Anchor (Ata)', role: 'Tank', tier: 'B', lanes: ['Clash', 'Support'], tags: ['Sustain'] },
+      'lianpo': { name: 'Earthshaker (Lianpo)', role: 'Tank', tier: 'B', lanes: ['Clash', 'Support'], tags: ['AoE CC'] },
+      'dun': { name: 'Belligerence (Dun)', role: 'Tank', tier: 'A', lanes: ['Clash', 'Support'], tags: ['CC', 'Tanky'] },
+      'xiangyu': { name: 'Ultimate Weapon (Xiangyu)', role: 'Tank', tier: 'C', lanes: ['Clash', 'Support'], tags: ['Tanky'] },
+      'caocao_t': { name: 'Dominant Ruler (Caocao)', role: 'Tank', tier: 'B', lanes: ['Clash', 'Jungle'], tags: ['Sustain'] },
+      'zhuangzhou': { name: 'Dreamwanderer (Zhuangzi)', role: 'Tank', tier: 'B', lanes: ['Support'], tags: ['Anti-CC'] },
+      'liubang': { name: 'Liu Bang', role: 'Tank', tier: 'B', lanes: ['Clash', 'Support'], tags: ['Global'] },
+      'mengtian': { name: 'Meng Tian', role: 'Tank', tier: 'B', lanes: ['Clash'], tags: ['Tanky'] },
+      'baiqi': { name: 'Blood General (Baiqi)', role: 'Tank', tier: 'B', lanes: ['Clash', 'Support'], tags: ['AoE CC'] },
+      'dharma_t': { name: 'Martial Monk (Dharma)', role: 'Tank', tier: 'B', lanes: ['Clash'], tags: ['CC'] },
+      'zhangfei': { name: 'The Beast (Zhangfei)', role: 'Tank', tier: 'B', lanes: ['Support'], tags: ['Shield', 'CC'] },
+      'liuxie': { name: 'Puppet Master (Liuxie)', role: 'Tank', tier: 'B', lanes: ['Support'], tags: ['CC'] },
 
-      // A-TIER (Strong Picks)
-      'luna': {
-        id: 'luna',
-        nameEn: 'Scarlet Moon',
-        nameEnAlt: 'Diana',
-        nameCn: '露娜',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: ['Baron'],
-        tier: 'A',
-        difficulty: 3,
-        winRate: 51.8,
-        pickRate: 18.0,
-        banRate: 12.0,
-        avatar: '🌙'
-      },
-      'ukyotachibana': {
-        id: 'ukyotachibana',
-        nameEn: 'Ukyo Tachibana',
-        nameEnAlt: null,
-        nameCn: '橘右京',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: ['Mid', 'Jungle'],
-        tier: 'A',
-        difficulty: 3,
-        winRate: 52.1,
-        pickRate: 15.0,
-        banRate: 8.0,
-        avatar: '⚔️'
-      },
-      'donghuang': {
-        id: 'donghuang',
-        nameEn: 'Donghuang',
-        nameEnAlt: 'Donghuang Taiyi',
-        nameCn: '东皇太一',
-        role: 'Tank',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 2,
-        winRate: 52.3,
-        pickRate: 14.0,
-        banRate: 22.0,
-        avatar: '🌟'
-      },
-      'angela': {
-        id: 'angela',
-        nameEn: 'Angela',
-        nameEnAlt: null,
-        nameCn: '安琪拉',
-        role: 'Mage',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 2,
-        winRate: 51.2,
-        pickRate: 16.0,
-        banRate: 18.0,
-        avatar: '🔮'
-      },
-      'xuance': {
-        id: 'xuance',
-        nameEn: 'Xuance',
-        nameEnAlt: 'Baili Xuance',
-        nameCn: '百里玄策',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 4,
-        winRate: 51.4,
-        pickRate: 14.0,
-        banRate: 30.0,
-        avatar: '🎣'
-      },
-      'marcopolo': {
-        id: 'marcopolo',
-        nameEn: 'Marco Polo',
-        nameEnAlt: null,
-        nameCn: '马可波罗',
-        role: 'Marksman',
-        primaryLane: 'Jungle',
-        viableLanes: ['Farm'],
-        tier: 'A',
-        difficulty: 3,
-        winRate: 51.9,
-        pickRate: 17.0,
-        banRate: 15.0,
-        avatar: '🏹'
-      },
-      'daqiao': {
-        id: 'daqiao',
-        nameEn: 'Bridge Keeper',
-        nameEnAlt: null,
-        nameCn: '大乔',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 2,
-        winRate: 51.5,
-        pickRate: 13.0,
-        banRate: 12.0,
-        avatar: '🎋'
-      },
-      'houyi': {
-        id: 'houyi',
-        nameEn: 'Sun Shooter',
-        nameEnAlt: null,
-        nameCn: '后羿',
-        role: 'Marksman',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 2,
-        winRate: 51.3,
-        pickRate: 16.0,
-        banRate: 10.0,
-        avatar: '🏹'
-      },
-      'dolia': {
-        id: 'dolia',
-        nameEn: 'Dolia',
-        nameEnAlt: null,
-        nameCn: '朵莉亚',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 2,
-        winRate: 51.6,
-        pickRate: 12.0,
-        banRate: 8.0,
-        avatar: '🌺'
-      },
-      'allain': {
-        id: 'allain',
-        nameEn: 'Allain',
-        nameEnAlt: null,
-        nameCn: '艾琳',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 2,
-        winRate: 51.1,
-        pickRate: 11.0,
-        banRate: 5.0,
-        avatar: '💎'
-      },
-      'dun': {
-        id: 'dun',
-        nameEn: 'Dun',
-        nameEnAlt: null,
-        nameCn: '盾山',
-        role: 'Tank',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 1,
-        winRate: 51.4,
-        pickRate: 10.0,
-        banRate: 6.0,
-        avatar: '🛡️'
-      },
+      // Fighters
+      'chicha': { name: 'Forge Maiden (Chicha)', role: 'Fighter', tier: 'S', lanes: ['Clash'], tags: ['Burst'] },
+      'lixin': { name: 'Vengeance (Li Xin)', role: 'Fighter', tier: 'S', lanes: ['Clash'], tags: ['Poke', 'Burst'] },
+      'gaochanggong_f': { name: 'Shadowblade (Lanling)', role: 'Fighter', tier: 'S', lanes: ['Jungle'], tags: ['Invis', 'Burst'] },
+      'allain': { name: 'Forgotten Blade (Allain)', role: 'Fighter', tier: 'A', lanes: ['Clash'], tags: ['Sustain'] },
+      'fatih': { name: 'Mighty Conqueror (Fatih)', role: 'Fighter', tier: 'A', lanes: ['Clash'], tags: ['Duelist'] },
+      'arthur': { name: 'Paladin (Arthur)', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['Sustain'] },
+      'mayene': { name: 'Martial Genius (Mayene)', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['Duelist'] },
+      'biron': { name: 'Sparkmace (Biron)', role: 'Fighter', tier: 'A', lanes: ['Clash'], tags: ['Sustain'] },
+      'musashi': { name: 'Swordmaster (Musashi)', role: 'Fighter', tier: 'B', lanes: ['Clash', 'Jungle'], tags: ['Burst'] },
+      'lubu': { name: 'Unrivaled Warrior (Lu Bu)', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['True Damage'] },
+      'heino_f': { name: 'Tomemaster (Heino)', role: 'Fighter', tier: 'B', lanes: ['Clash', 'Mid'], tags: ['Hybrid'] },
+      'mulan': { name: 'Ironbloom (Mulan)', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['Burst', 'CC'] },
+      'guanyu': { name: 'Guan Yu', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['Mobility'] },
+      'dianwei': { name: 'Dian Wei', role: 'Fighter', tier: 'A', lanes: ['Jungle', 'Clash'], tags: ['Sustain'] },
+      'sunce': { name: 'Seafarer (Sun Ce)', role: 'Fighter', tier: 'B', lanes: ['Clash', 'Jungle'], tags: ['Global CC'] },
+      'pangu': { name: 'World Creator (Pangu)', role: 'Fighter', tier: 'A', lanes: ['Jungle'], tags: ['Disarm'] },
+      'miyue': { name: 'Mi Yue', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['Sustain'] },
+      'fuzi': { name: 'Fuzi', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['Duelist'] },
+      'mozi_f': { name: 'Mozi', role: 'Fighter', tier: 'B', lanes: ['Clash', 'Support'], tags: ['Poke', 'CC'] },
+      'nezha': { name: 'Wild Spark (Nezha)', role: 'Fighter', tier: 'C', lanes: ['Clash', 'Jungle'], tags: ['Global'] },
+      'yango': { name: 'Avici Puppeteer (Yang Jian)', role: 'Fighter', tier: 'C', lanes: ['Clash', 'Jungle'], tags: ['Execute'] },
+      'liubei': { name: 'Pointblank (Liu Bei)', role: 'Fighter', tier: 'B', lanes: ['Jungle'], tags: ['Burst', 'Shield'] },
+      'lapulapu': { name: 'Reefheart Datu (Lapu-Lapu)', role: 'Fighter', tier: 'B', lanes: ['Clash'], tags: ['AoE Damage'] },
+      'machao': { name: 'Ma Chao', role: 'Fighter', tier: 'A', lanes: ['Clash'], tags: ['Mobility'] },
+      'athena': { name: 'Athena', role: 'Fighter', tier: 'B', lanes: ['Jungle'], tags: ['Mobility'] },
 
-      // B-TIER (Balanced)
-      'arthur': {
-        id: 'arthur',
-        nameEn: 'Arthur',
-        nameEnAlt: null,
-        nameCn: '亚瑟',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.5,
-        pickRate: 12.0,
-        banRate: 3.0,
-        avatar: '⚔️'
-      },
-      'zhangfei': {
-        id: 'zhangfei',
-        nameEn: 'Zhang Fei',
-        nameEnAlt: null,
-        nameCn: '张飞',
-        role: 'Tank',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.8,
-        pickRate: 11.0,
-        banRate: 5.0,
-        avatar: '💪'
-      },
-      'diaochan': {
-        id: 'diaochan',
-        nameEn: 'Diaochan',
-        nameEnAlt: null,
-        nameCn: '貂蝉',
-        role: 'Mage',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.8,
-        pickRate: 10.0,
-        banRate: 6.0,
-        avatar: '💃'
-      },
-      'lubu': {
-        id: 'lubu',
-        nameEn: 'Lu Bu',
-        nameEnAlt: null,
-        nameCn: '吕布',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.1,
-        pickRate: 9.0,
-        banRate: 2.0,
-        avatar: '🐎'
-      },
-      'caiyan': {
-        id: 'caiyan',
-        nameEn: 'Cai Yan',
-        nameEnAlt: 'Cai Wenji',
-        nameCn: '蔡文姬',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.4,
-        pickRate: 8.0,
-        banRate: 10.0,
-        avatar: '🎵'
-      },
-      'maishiranui': {
-        id: 'maishiranui',
-        nameEn: 'Mai Shiranui',
-        nameEnAlt: null,
-        nameCn: '不知火舞',
-        role: 'Assassin',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.3,
-        pickRate: 9.0,
-        banRate: 4.0,
-        avatar: '🔥'
-      },
-      'charlotte': {
-        id: 'charlotte',
-        nameEn: 'Charlotte',
-        nameEnAlt: null,
-        nameCn: '夏洛特',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.2,
-        pickRate: 8.0,
-        banRate: 3.0,
-        avatar: '🎠'
-      },
-      'biron': {
-        id: 'biron',
-        nameEn: 'Biron',
-        nameEnAlt: null,
-        nameCn: '暃',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.0,
-        pickRate: 7.0,
-        banRate: 2.0,
-        avatar: '🌅'
-      },
-      'shouyue': {
-        id: 'shouyue',
-        nameEn: 'Shouyue',
-        nameEnAlt: null,
-        nameCn: '守约',
-        role: 'Assassin',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.9,
-        pickRate: 10.0,
-        banRate: 5.0,
-        avatar: '🎯'
-      },
-      'kui': {
-        id: 'kui',
-        nameEn: 'Kui',
-        nameEnAlt: null,
-        nameCn: '夔',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.1,
-        pickRate: 7.0,
-        banRate: 4.0,
-        avatar: '🐂'
-      },
-      'zhuangzi': {
-        id: 'zhuangzi',
-        nameEn: 'Zhuangzi',
-        nameEnAlt: null,
-        nameCn: '庄周',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.3,
-        pickRate: 6.0,
-        banRate: 3.0,
-        avatar: '🐟'
-      },
-      'heino': {
-        id: 'heino',
-        nameEn: 'Heino',
-        nameEnAlt: null,
-        nameCn: '海诺',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.8,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '🦅'
-      },
+      // Assassins
+      'jing': { name: 'Broken Mirage (Jing)', role: 'Assassin', tier: 'S', lanes: ['Jungle'], tags: ['Burst', 'Mobility'] },
+      'lam': { name: 'Stealthfin (Lam)', role: 'Assassin', tier: 'S', lanes: ['Jungle'], tags: ['Burst', 'Mobility'] },
+      'arke': { name: 'Shadowstalker (Arke)', role: 'Assassin', tier: 'S', lanes: ['Jungle'], tags: ['Burst'] },
+      'feyd': { name: 'Featherfoot (Feyd)', role: 'Assassin', tier: 'S', lanes: ['Jungle'], tags: ['Burst'] },
+      'xuance': { name: 'Madlash (Xuance)', role: 'Assassin', tier: 'A', lanes: ['Jungle'], tags: ['CC', 'Mobility'] },
+      'luna': { name: 'Moonblade (Luna)', role: 'Assassin', tier: 'A', lanes: ['Jungle'], tags: ['Mobility', 'Hybrid'] },
+      'hanxin': { name: 'Firespear (Han Xin)', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Mobility'] },
+      'nakoruru': { name: 'Hawk Whisperer (Nakoruru)', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Burst'] },
+      'libai': { name: 'Li Bai', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Untargetable'] },
+      'wukong': { name: 'Monkey King (Wukong)', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Burst'] },
+      'shangguan': { name: 'Calligrapher (Shangguan)', role: 'Assassin', tier: 'C', lanes: ['Mid'], tags: ['Burst'] },
+      'zilong': { name: 'Fearless Spear (Zhao Yun)', role: 'Assassin', tier: 'C', lanes: ['Jungle'], tags: ['Burst'] },
+      'butterfly': { name: 'Death\'s Whisper (Butterfly)', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Reset'] },
+      'pei': { name: 'Tigerous (Pei)', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Early Game'] },
+      'cirrus': { name: 'Razorwing (Cirrus)', role: 'Assassin', tier: 'A', lanes: ['Jungle'], tags: ['Mobility'] },
+      'arli': { name: 'Parasola (Arli)', role: 'Assassin', tier: 'A', lanes: ['Jungle', 'Farm'], tags: ['Mobility'] },
+      'kai_a': { name: 'Blade Master (Kai)', role: 'Assassin', tier: 'A', lanes: ['Jungle', 'Clash'], tags: ['Burst'] },
+      'yuange': { name: 'Dual Blades (Yuan Ge)', role: 'Assassin', tier: 'A', lanes: ['Mid', 'Clash'], tags: ['Burst'] },
+      'simayi': { name: 'Sima Yi', role: 'Assassin', tier: 'C', lanes: ['Jungle', 'Mid'], tags: ['Burst', 'Silence'] },
+      'lanlingwang_a': { name: 'Assassin Prince (Lanling)', role: 'Assassin', tier: 'S', lanes: ['Jungle'], tags: ['Invis', 'Burst'] },
+      'jixia': { name: 'Shadow Blade (Jixia)', role: 'Assassin', tier: 'B', lanes: ['Jungle'], tags: ['Burst'] },
 
-      // C-TIER (Situational)
-      'wukong': {
-        id: 'wukong',
-        nameEn: 'Monkey King',
-        nameEnAlt: 'Sun Wukong',
-        nameCn: '孙悟空',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 3,
-        winRate: 47.9,
-        pickRate: 7.0,
-        banRate: 1.0,
-        avatar: '🐵'
-      },
-      'kaizer': {
-        id: 'kaizer',
-        nameEn: 'Kaizer',
-        nameEnAlt: null,
-        nameCn: '铠',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 2,
-        winRate: 48.2,
-        pickRate: 6.0,
-        banRate: 1.0,
-        avatar: '⚔️'
-      },
-      'huangzhong': {
-        id: 'huangzhong',
-        nameEn: 'Huang Zhong',
-        nameEnAlt: null,
-        nameCn: '黄忠',
-        role: 'Marksman',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 2,
-        winRate: 48.5,
-        pickRate: 5.0,
-        banRate: 1.0,
-        avatar: '🎯'
-      },
-      'zilong': {
-        id: 'zilong',
-        nameEn: 'Dragon Warrior',
-        nameEnAlt: null,
-        nameCn: '赵云',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 1,
-        winRate: 48.0,
-        pickRate: 6.0,
-        banRate: 1.0,
-        avatar: '🐲'
-      },
-      'nezha': {
-        id: 'nezha',
-        nameEn: 'Nezha',
-        nameEnAlt: null,
-        nameCn: '哪吒',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 2,
-        winRate: 48.3,
-        pickRate: 5.0,
-        banRate: 2.0,
-        avatar: '🔱'
-      },
-      'shangguan': {
-        id: 'shangguan',
-        nameEn: 'Shangguan',
-        nameEnAlt: null,
-        nameCn: '上官婉儿',
-        role: 'Assassin',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 4,
-        winRate: 47.8,
-        pickRate: 8.0,
-        banRate: 3.0,
-        avatar: '📜'
-      },
+      // Mages
+      'daji': { name: 'Heartseeker (Daji)', role: 'Mage', tier: 'S', lanes: ['Mid'], tags: ['Burst', 'Single Target'] },
+      'angela': { name: 'Scorchette (Angela)', role: 'Mage', tier: 'S', lanes: ['Mid'], tags: ['Burst', 'Poke'] },
+      'wangzhaojun': { name: 'Princess Frost (Wang Zhaojun)', role: 'Mage', tier: 'S', lanes: ['Mid'], tags: ['CC', 'AoE'] },
+      'haya': { name: 'Everfrost (Mai Shiranui)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['Burst', 'Mobility'] },
+      'ziya': { name: 'Divine Enforcer (Jiang Ziya)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['Exp Boost'] },
+      'drbian': { name: 'Curious Mixture (Bian Que)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Healer', 'Sustain'] },
+      'xiaoqiao': { name: 'Breezeheart (Xiao Qiao)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['AoE Burst'] },
+      'milady': { name: 'Mechaboss (Milady)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['Push'] },
+      'nuwa': { name: 'Celestial (Nuwa)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Control'] },
+      'diaochan': { name: 'Lotusdancer (Diaochan)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Sustain', 'Burst'] },
+      'yixing': { name: 'Boardmaster (Yi Xing)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Control'] },
+      'ganmo': { name: 'Smith and Blade (Ganjiang)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['Poke'] },
+      'zhouyu': { name: 'Inferno (Zhou Yu)', role: 'Mage', tier: 'C', lanes: ['Mid'], tags: ['Poke', 'Push'] },
+      'ladyzhen': { name: 'Lady Zhen (Zhen Ji)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['AoE CC'] },
+      'liang': { name: 'Grand Strategist (Zhuge Liang)', role: 'Mage', tier: 'S', lanes: ['Mid', 'Jungle'], tags: ['Burst', 'Mobility'] },
+      'yuhuan_m': { name: 'Fatal Lyrist (Yuhuan)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Utility', 'Sustain'] },
+      'shi_m': { name: 'Silkweaver (Xi Shi)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['CC'] },
+      'mozi_m': { name: 'Mozi', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Poke', 'CC'] },
+      'sunbin_m': { name: 'Timebender (Sun Bin)', role: 'Mage', tier: 'B', lanes: ['Mid', 'Support'], tags: ['Utility'] },
+      'kui': { name: 'Voidcaller (Kui)', role: 'Mage', tier: 'B', lanes: ['Mid', 'Support'], tags: ['Control'] },
+      'kongming': { name: 'Mastermind (Kongming)', role: 'Mage', tier: 'A', lanes: ['Mid'], tags: ['Poke'] },
+      'yuji': { name: 'Conjurer (Yuji)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Poke'] },
+      'sunwu': { name: 'Sun Wu', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['Control'] },
+      'ying': { name: 'Princess Frost (Ying)', role: 'Mage', tier: 'B', lanes: ['Mid'], tags: ['AoE'] },
 
-      // MORE HEROES (Adding more to reach 80+)
-      'libai': {
-        id: 'libai',
-        nameEn: 'Li Bai',
-        nameEnAlt: null,
-        nameCn: '李白',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 4,
-        winRate: 50.1,
-        pickRate: 12.0,
-        banRate: 8.0,
-        avatar: '🗡️'
-      },
-      'hanxin': {
-        id: 'hanxin',
-        nameEn: 'Han Xin',
-        nameEnAlt: null,
-        nameCn: '韩信',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 4,
-        winRate: 49.8,
-        pickRate: 11.0,
-        banRate: 7.0,
-        avatar: '⚡'
-      },
-      'mulan': {
-        id: 'mulan',
-        nameEn: 'Mulan',
-        nameEnAlt: null,
-        nameCn: '花木兰',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 50.3,
-        pickRate: 9.0,
-        banRate: 4.0,
-        avatar: '⚔️'
-      },
-      'guanyu': {
-        id: 'guanyu',
-        nameEn: 'Guan Yu',
-        nameEnAlt: null,
-        nameCn: '关羽',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.2,
-        pickRate: 8.0,
-        banRate: 3.0,
-        avatar: '🐉'
-      },
-      'lixin': {
-        id: 'lixin',
-        nameEn: 'Li Xin',
-        nameEnAlt: null,
-        nameCn: '李信',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.9,
-        pickRate: 7.0,
-        banRate: 2.0,
-        avatar: '⚔️'
-      },
-      'liubei': {
-        id: 'liubei',
-        nameEn: 'Liu Bei',
-        nameEnAlt: null,
-        nameCn: '刘备',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.0,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '⚔️'
-      },
-      'machao': {
-        id: 'machao',
-        nameEn: 'Ma Chao',
-        nameEnAlt: null,
-        nameCn: '马超',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 3,
-        winRate: 51.2,
-        pickRate: 10.0,
-        banRate: 6.0,
-        avatar: '🐎'
-      },
-      'caocao': {
-        id: 'caocao',
-        nameEn: 'Cao Cao',
-        nameEnAlt: null,
-        nameCn: '曹操',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.4,
-        pickRate: 7.0,
-        banRate: 3.0,
-        avatar: '👑'
-      },
-      'sunce': {
-        id: 'sunce',
-        nameEn: 'Sun Ce',
-        nameEnAlt: null,
-        nameCn: '孙策',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.7,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '🌊'
-      },
-      'xiangyu': {
-        id: 'xiangyu',
-        nameEn: 'Xiang Yu',
-        nameEnAlt: null,
-        nameCn: '项羽',
-        role: 'Tank',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 2,
-        winRate: 48.5,
-        pickRate: 5.0,
-        banRate: 1.0,
-        avatar: '🛡️'
-      },
-      'dharma': {
-        id: 'dharma',
-        nameEn: 'Dharma',
-        nameEnAlt: null,
-        nameCn: '达摩',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.5,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '🙏'
-      },
-      'pei': {
-        id: 'pei',
-        nameEn: 'Pei',
-        nameEnAlt: null,
-        nameCn: '裴擒虎',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 50.0,
-        pickRate: 8.0,
-        banRate: 4.0,
-        avatar: '🐯'
-      },
-      'simahyi': {
-        id: 'simayi',
-        nameEn: 'Sima Yi',
-        nameEnAlt: null,
-        nameCn: '司马懿',
-        role: 'Assassin',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 3,
-        winRate: 48.2,
-        pickRate: 5.0,
-        banRate: 2.0,
-        avatar: '🦅'
-      },
-      'ying': {
-        id: 'ying',
-        nameEn: 'Princess Frost',
-        nameEnAlt: null,
-        nameCn: '嬴政',
-        role: 'Mage',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.8,
-        pickRate: 7.0,
-        banRate: 3.0,
-        avatar: '👑'
-      },
-      'zhouyu': {
-        id: 'zhouyu',
-        nameEn: 'Fire Tactician',
-        nameEnAlt: null,
-        nameCn: '周瑜',
-        role: 'Mage',
-        primaryLane: 'Mid',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 2,
-        winRate: 48.6,
-        pickRate: 5.0,
-        banRate: 2.0,
-        avatar: '🔥'
-      },
-      'dianwei': {
-        id: 'dianwei',
-        nameEn: 'Dian Wei',
-        nameEnAlt: null,
-        nameCn: '典韦',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.1,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '⚔️'
-      },
-      'nakoruru': {
-        id: 'nakoruru',
-        nameEn: 'Nakoruru',
-        nameEnAlt: null,
-        nameCn: '娜可露露',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.6,
-        pickRate: 7.0,
-        banRate: 3.0,
-        avatar: '🦅'
-      },
-      'sunbin': {
-        id: 'sunbin',
-        nameEn: 'Sun Bin',
-        nameEnAlt: null,
-        nameCn: '孙膑',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.9,
-        pickRate: 6.0,
-        banRate: 3.0,
-        avatar: '📖'
-      },
-      'guiguzi': {
-        id: 'guiguzi',
-        nameEn: 'Phantom Sage',
-        nameEnAlt: null,
-        nameCn: '鬼谷子',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 50.2,
-        pickRate: 5.0,
-        banRate: 2.0,
-        avatar: '👻'
-      },
-      'miyue': {
-        id: 'miyue',
-        nameEn: 'Mi Yue',
-        nameEnAlt: null,
-        nameCn: '芈月',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.8,
-        pickRate: 5.0,
-        banRate: 2.0,
-        avatar: '🌙'
-      },
-      'yango': {
-        id: 'yango',
-        nameEn: 'Yango',
-        nameEnAlt: null,
-        nameCn: '杨戬',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 2,
-        winRate: 48.3,
-        pickRate: 4.0,
-        banRate: 1.0,
-        avatar: '🐕'
-      },
-      'pangu': {
-        id: 'pangu',
-        nameEn: 'World Creator',
-        nameEnAlt: null,
-        nameCn: '盘古',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 3,
-        winRate: 51.3,
-        pickRate: 9.0,
-        banRate: 7.0,
-        avatar: '⚒️'
-      },
-      'musashi': {
-        id: 'musashi',
-        nameEn: 'Sword Saint',
-        nameEnAlt: null,
-        nameCn: '宫本武藏',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.9,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '⚔️'
-      },
-      'athena': {
-        id: 'athena',
-        nameEn: 'Athena',
-        nameEnAlt: null,
-        nameCn: '雅典娜',
-        role: 'Fighter',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.7,
-        pickRate: 7.0,
-        banRate: 3.0,
-        avatar: '⚡'
-      },
-      'cirrus': {
-        id: 'cirrus',
-        nameEn: 'Cirrus',
-        nameEnAlt: null,
-        nameCn: '云缨',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'A',
-        difficulty: 3,
-        winRate: 51.5,
-        pickRate: 13.0,
-        banRate: 10.0,
-        avatar: '☁️'
-      },
-      'mayene': {
-        id: 'mayene',
-        nameEn: 'Swift Hunter',
-        nameEnAlt: null,
-        nameCn: '梦奇',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 49.5,
-        pickRate: 5.0,
-        banRate: 1.0,
-        avatar: '🎪'
-      },
-      'fuzi': {
-        id: 'fuzi',
-        nameEn: 'Fuzi',
-        nameEnAlt: null,
-        nameCn: '夫子',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.6,
-        pickRate: 4.0,
-        banRate: 1.0,
-        avatar: '📚'
-      },
-      'mozi': {
-        id: 'mozi',
-        nameEn: 'Mozi',
-        nameEnAlt: null,
-        nameCn: '墨子',
-        role: 'Fighter',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.4,
-        pickRate: 4.0,
-        banRate: 1.0,
-        avatar: '🔧'
-      },
-      'direnjie': {
-        id: 'direnjie',
-        nameEn: 'Di Renjie',
-        nameEnAlt: null,
-        nameCn: '狄仁杰',
-        role: 'Marksman',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'C',
-        difficulty: 1,
-        winRate: 48.7,
-        pickRate: 5.0,
-        banRate: 1.0,
-        avatar: '🕵️'
-      },
-      'lianpo': {
-        id: 'lianpo',
-        nameEn: 'Lian Po',
-        nameEnAlt: null,
-        nameCn: '廉颇',
-        role: 'Tank',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0,
-        avatar: '🛡️'
-      },
-      'mengtian': {
-        id: 'mengtian',
-        nameEn: 'Meng Tian',
-        nameEnAlt: null,
-        nameCn: '蒙恬',
-        role: 'Tank',
-        primaryLane: 'Baron',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.8,
-        pickRate: 6.0,
-        banRate: 3.0,
-        avatar: '⚔️'
-      },
-      'butterfly': {
-        id: 'butterfly',
-        nameEn: 'Butterfly',
-        nameEnAlt: null,
-        nameCn: '露娜（蝶）',
-        role: 'Assassin',
-        primaryLane: 'Jungle',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.9,
-        pickRate: 6.0,
-        banRate: 3.0,
-        avatar: '🦋'
-      },
-      'umbrosa': {
-        id: 'umbrosa',
-        nameEn: 'Umbrosa',
-        nameEnAlt: null,
-        nameCn: '百里守约（影）',
-        role: 'Marksman',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 3,
-        winRate: 49.7,
-        pickRate: 7.0,
-        banRate: 4.0,
-        avatar: '🎯'
-      },
-      'menki': {
-        id: 'menki',
-        nameEn: 'Menki',
-        nameEnAlt: null,
-        nameCn: '蒙犽',
-        role: 'Marksman',
-        primaryLane: 'Farm',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 2,
-        winRate: 49.8,
-        pickRate: 6.0,
-        banRate: 2.0,
-        avatar: '🎯'
-      },
-      'ming': {
-        id: 'ming',
-        nameEn: 'Ming',
-        nameEnAlt: null,
-        nameCn: '明世隐',
-        role: 'Support',
-        primaryLane: 'Roam',
-        viableLanes: [],
-        tier: 'B',
-        difficulty: 1,
-        winRate: 50.2,
-        pickRate: 4.0,
-        banRate: 2.0,
-        avatar: '🔗'
-      },
-      'ata': {
-        id: 'ata',
-        nameEn: 'White Anchor',
-        nameCn: 'Ata',
-        role: 'Tank',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'baiqi': {
-        id: 'baiqi',
-        nameEn: 'Blood General',
-        nameCn: 'Bai Qi',
-        role: 'Tank',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'liuxie': {
-        id: 'liuxie',
-        nameEn: 'Puppet Master',
-        nameCn: 'Liu Xie',
-        role: 'Tank',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      
-      'zhuangzhou': {
-        id: 'zhuangzhou',
-        nameEn: 'Butterfly Dream',
-        nameCn: 'Zhuang Zhou',
-        role: 'Tank',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'baili': {
-        id: 'baili',
-        nameEn: '守约',
-        nameCn: 'Baili Shouyue',
-        role: 'Fighter',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'clausus': {
-        id: 'clausus',
-        nameEn: 'Iron Guard',
-        nameCn: 'Clausus',
-        role: 'Fighter',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      
-      
-      'xiaoqiao': {
-        id: 'xiaoqiao',
-        nameEn: 'River Spirit',
-        nameCn: 'Xiao Qiao',
-        role: 'Fighter',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      
-      'arli': {
-        id: 'arli',
-        nameEn: 'Parasola',
-        nameCn: 'Arli',
-        role: 'Assassin',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'jixia': {
-        id: 'jixia',
-        nameEn: 'Shadow Blade',
-        nameCn: 'Ji Xia',
-        role: 'Assassin',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'kai': {
-        id: 'kai',
-        nameEn: 'Blade Master',
-        nameCn: 'Kai',
-        role: 'Assassin',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'lanlingwang': {
-        id: 'lanlingwang',
-        nameEn: 'Assassin Prince',
-        nameCn: 'Lanling Wang',
-        role: 'Assassin',
-        tier: 'S',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'yuange': {
-        id: 'yuange',
-        nameEn: 'Dual Blades',
-        nameCn: 'Yuan Ge',
-        role: 'Assassin',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'dyadia': {
-        id: 'dyadia',
-        nameEn: 'Bondweaver',
-        nameCn: 'Dyadia',
-        role: 'Support',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'nuwa': {
-        id: 'nuwa',
-        nameEn: 'Goddess',
-        nameCn: 'Nu Wa',
-        role: 'Support',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      
-      'taiyi': {
-        id: 'taiyi',
-        nameEn: 'Master Taiyi',
-        nameCn: 'Taiyi Zhenren',
-        role: 'Support',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'zhugeliang': {
-        id: 'zhugeliang',
-        nameEn: 'Grand Strategist',
-        nameCn: 'Zhuge Liang',
-        role: 'Support',
-        tier: 'S',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'ganjiang': {
-        id: 'ganjiang',
-        nameEn: 'Twin Blades',
-        nameCn: 'Ganjiang & Moye',
-        role: 'Mage',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'jiyixing': {
-        id: 'jiyixing',
-        nameEn: 'Stargazer',
-        nameCn: 'Ji Yixing',
-        role: 'Mage',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'lady': {
-        id: 'lady',
-        nameEn: 'Lady Sun',
-        nameCn: 'Lady Sun',
-        role: 'Mage',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'nvwa': {
-        id: 'nvwa',
-        nameEn: 'Creation Goddess',
-        nameCn: 'Nuwa',
-        role: 'Mage',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'sunwu': {
-        id: 'sunwu',
-        nameEn: 'Sun Wu',
-        nameCn: 'Sun Wu',
-        role: 'Mage',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'xishi': {
-        id: 'xishi',
-        nameEn: 'Lady Zhen',
-        nameCn: 'Xi Shi',
-        role: 'Mage',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'yuji': {
-        id: 'yuji',
-        nameEn: 'Conjurer',
-        nameCn: 'Yu Ji',
-        role: 'Mage',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'zhenji': {
-        id: 'zhenji',
-        nameEn: 'Goddess of Luo',
-        nameCn: 'Zhen Ji',
-        role: 'Mage',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'drbian': {
-        id: 'drbian',
-        nameEn: 'Curious Mixture',
-        nameCn: 'Dr Bian',
-        role: 'Mage',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'shangxiang': {
-        id: 'shangxiang',
-        nameEn: 'Sun Shangxiang',
-        nameCn: 'Sun Shangxiang',
-        role: 'Mage',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'agudo': {
-        id: 'agudo',
-        nameEn: 'Wild Rider',
-        nameCn: 'Agudo',
-        role: 'Marksman',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'alessio': {
-        id: 'alessio',
-        nameEn: 'Red Hawk',
-        nameCn: 'Alessio',
-        role: 'Marksman',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'aoyin': {
-        id: 'aoyin',
-        nameEn: 'Loong',
-        nameCn: "Ao\\'yin",
-        role: 'Marksman',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'chano': {
-        id: 'chano',
-        nameEn: 'Packleader',
-        nameCn: 'Chano',
-        role: 'Marksman',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'consortyu': {
-        id: 'consortyu',
-        nameEn: 'Woodland Ranger',
-        nameCn: 'Consort Yu',
-        role: 'Marksman',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      
-      'jialuo': {
-        id: 'jialuo',
-        nameEn: 'Spell Dancer',
-        nameCn: 'Jialuo',
-        role: 'Marksman',
-        tier: 'A',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'mengya': {
-        id: 'mengya',
-        nameEn: 'Bunny Brawler',
-        nameCn: 'Meng Ya',
-        role: 'Marksman',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      },
-      'sunshangxiang': {
-        id: 'sunshangxiang',
-        nameEn: 'Blazing Gunner',
-        nameCn: 'Sun Shangxiang',
-        role: 'Marksman',
-        tier: 'B',
-        avatar: '🎮',
-        winRate: 50.0,
-        pickRate: 5.0,
-        banRate: 2.0
-      }
-    }
-    
-    let selectedRole = null;
-    
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-      // Run nuclear test after 1 second
-      setTimeout(testBanRecommendations, 1000);
-      populateEnemyDropdowns();
-      console.log('✅ Draft loaded:', Object.keys(HEROES).length, 'heroes');
-    });
-    
-    function populateEnemyDropdowns() {
-      ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5', 'teammate1', 'teammate2', 'teammate3', 'teammate4'].forEach(id => {
-        const select = document.getElementById(id);
-        Object.values(HEROES).forEach(hero => {
-          const opt = document.createElement('option');
-          opt.value = hero.id;
-          opt.textContent = (hero.nameEn || hero.nameCn) + ' (' + hero.role + ')';
-          select.appendChild(opt);
-        });
-      });
-    }
-    
+      // Marksmen
+      'houyi': { name: 'Solarus (Houyi)', role: 'Marksman', tier: 'S', lanes: ['Farm'], tags: ['Attack Speed'] },
+      'marcopolo': { name: 'Gunslinger (Marco Polo)', role: 'Marksman', tier: 'S', lanes: ['Farm'], tags: ['Mobility'] },
+      'luban': { name: 'Mecha Shooter (Luban)', role: 'Marksman', tier: 'B', lanes: ['Farm'], tags: ['Burst'] },
+      'loong': { name: 'Loong (Ao Yin)', role: 'Marksman', tier: 'S', lanes: ['Farm'], tags: ['Hybrid'] },
+      'garo': { name: 'Piercing Arrow (Garo)', role: 'Marksman', tier: 'A', lanes: ['Farm'], tags: ['Range'] },
+      'consortyu': { name: 'Woodland Ranger (Consort Yu)', role: 'Marksman', tier: 'A', lanes: ['Farm'], tags: ['Immunity'] },
+      'alessio': { name: 'Red Hawk (Alessio)', role: 'Marksman', tier: 'C', lanes: ['Farm'], tags: ['Mobility'] },
+      'erin': { name: 'Laurel Princess (Erin)', role: 'Marksman', tier: 'A', lanes: ['Farm'], tags: ['Magic Damage'] },
+      'shouyue_m': { name: 'Longshot (Baili Shouyue)', role: 'Marksman', tier: 'B', lanes: ['Farm'], tags: ['Poke'] },
+      'mengya': { name: 'Loose Cannon (Meng Ya)', role: 'Marksman', tier: 'B', lanes: ['Farm'], tags: ['AoE'] },
+      'starblade': { name: 'Starblade (Yao)', role: 'Marksman', tier: 'S', lanes: ['Farm'], tags: ['Burst'] },
+      'agudo_m': { name: 'Wild Rider (Agudo)', role: 'Marksman', tier: 'B', lanes: ['Farm', 'Jungle'], tags: ['Push'] },
+      'chano': { name: 'Packleader (Chano)', role: 'Marksman', tier: 'B', lanes: ['Farm'], tags: ['Sustain'] },
+      'huangzhong': { name: 'Artillerist (Huang Zhong)', role: 'Marksman', tier: 'C', lanes: ['Farm'], tags: ['Range'] },
+      'lady_m': { name: 'Cannon Belle (Lady Sun)', role: 'Marksman', tier: 'B', lanes: ['Farm'], tags: ['Burst'] },
+      'jialuo': { name: 'Spell Dancer (Jialuo)', role: 'Marksman', tier: 'A', lanes: ['Farm'], tags: ['Range'] },
+      'direnjie': { name: 'Di Renjie', role: 'Marksman', tier: 'C', lanes: ['Farm'], tags: ['Attack Speed'] },
+
+      // Supports
+      'dolia': { name: 'Seasinger (Dolia)', role: 'Support', tier: 'S', lanes: ['Support'], tags: ['Utility', 'Reset'] },
+      'caiyan': { name: 'Healing Tone (Cai Yan)', role: 'Support', tier: 'S', lanes: ['Support'], tags: ['Healer'] },
+      'yaria_s': { name: 'Deerie (Yaria)', role: 'Support', tier: 'A', lanes: ['Support'], tags: ['Shield'] },
+      'dyadia': { name: 'Bondweaver (Dyadia)', role: 'Support', tier: 'A', lanes: ['Support'], tags: ['Utility'] },
+      'daqiao_s': { name: 'Lanternlight (Da Qiao)', role: 'Support', tier: 'A', lanes: ['Support'], tags: ['Global'] },
+      'ming': { name: 'Star Teller (Ming)', role: 'Support', tier: 'C', lanes: ['Support'], tags: ['Buff'] },
+      'guiguzi': { name: 'Animist (Guiguzi)', role: 'Support', tier: 'B', lanes: ['Support'], tags: ['Engage', 'Invis'] },
+      'sakeer': { name: 'Brushstrider (Sakeer)', role: 'Support', tier: 'B', lanes: ['Support'], tags: ['CC'] },
+      'menki': { name: 'Dream Spirit', role: 'Support', tier: 'B', lanes: ['Support'], tags: ['Shield'] },
+      'taiyi': { name: 'Master Taiyi', role: 'Support', tier: 'A', lanes: ['Support'], tags: ['Revive'] },
+      'wisesage': { name: 'Wise Sage', role: 'Support', tier: 'A', lanes: ['Support'], tags: ['Utility'] },
+      'soulguide': { name: 'Soulguide', role: 'Support', tier: 'B', lanes: ['Support'], tags: ['Utility'] },
+      'majestic': { name: 'Majestic Guardian', role: 'Support', tier: 'B', lanes: ['Support'], tags: ['Tanky'] },
+      'fang': { name: 'Private Ear (Fang)', role: 'Support', tier: 'B', lanes: ['Support'], tags: ['Vision'] },
+      'sunbin_s': { name: 'Timebender (Sun Bin)', role: 'Support', tier: 'C', lanes: ['Support'], tags: ['Mobility'] }
+    };
+
+    const ROLE_TO_LANE = { 'Tank': 'Support', 'Fighter': 'Clash', 'Assassin': 'Jungle', 'Mage': 'Mid', 'Marksman': 'Farm', 'Support': 'Support' };
+    const TIER_W = { 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
+
     function selectRole(role) {
-      selectedRole = role;
       document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
       event.target.classList.add('active');
-      
       const container = document.getElementById('your-hero-select');
-      const roleHeroes = Object.values(HEROES).filter(h => h.role === role);
+      const filtered = Object.keys(HEROES).filter(k => HEROES[k].role === role).sort((a,b) => TIER_W[HEROES[b].tier] - TIER_W[HEROES[a].tier]);
       
-      const select = document.createElement('select');
-      select.className = 'hero-select';
+      let htmlOptions = `<option value="">-- Choose Your ${role} --</option>`;
+      filtered.forEach(k => { htmlOptions += `<option value="${k}">[${HEROES[k].tier}] ${HEROES[k].name}</option>`; });
+      container.innerHTML = `<select class="hero-select" id="myHero" onchange="updateAnalysis()">${htmlOptions}</select>`;
       
-      const opt = document.createElement('option');
-      opt.value = '';
-      opt.textContent = 'Choose your ' + role;
-      select.appendChild(opt);
-      
-      roleHeroes.forEach(hero => {
-        const opt = document.createElement('option');
-        opt.value = hero.id;
-        opt.textContent = (hero.nameEn || hero.nameCn) + ' (' + hero.tier + ')';
-        select.appendChild(opt);
-      });
-      
-      // Add onchange handler to trigger analysis
-      select.onchange = updateAnalysis;
-      
-      container.innerHTML = '';
-      container.appendChild(select);
+      updateTeammateSlots(ROLE_TO_LANE[role]);
       updateAnalysis();
     }
-    
+
+    function updateTeammateSlots(userLane) {
+      const remaining = ['Clash', 'Jungle', 'Mid', 'Farm', 'Support'].filter(l => l !== userLane);
+      const container = document.getElementById('teammate-slots');
+      
+      let html = '';
+      remaining.forEach(lane => {
+        const filtered = Object.keys(HEROES).filter(k => HEROES[k].lanes.includes(lane)).sort((a,b) => TIER_W[HEROES[b].tier] - TIER_W[HEROES[a].tier]);
+        let ops = `<option value="">-- Choose ${lane} --</option>`;
+        filtered.forEach(k => { ops += `<option value="${k}">[${HEROES[k].tier}] ${HEROES[k].name}</option>`; });
+        html += `<span class="lane-label">${lane} Teammate</span><select class="hero-select" id="tm_${lane.toLowerCase()}" onchange="updateAnalysis()">${ops}</select>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function initEnemyDropdowns() {
+      const slots = { 'en_clash': 'Clash', 'en_jungle': 'Jungle', 'en_mid': 'Mid', 'en_farm': 'Farm', 'en_support': 'Support' };
+      for (let id in slots) {
+        const lane = slots[id];
+        const filtered = Object.keys(HEROES).filter(k => HEROES[k].lanes.includes(lane)).sort((a,b) => TIER_W[HEROES[b].tier] - TIER_W[HEROES[a].tier]);
+        let ops = `<option value="">-- Choose ${lane} --</option>`;
+        filtered.forEach(k => { ops += `<option value="${k}">[${HEROES[k].tier}] ${HEROES[k].name}</option>`; });
+        document.getElementById(id).innerHTML = ops;
+      }
+    }
+
     function updateAnalysis() {
-      const enemyIds = [];
-      ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5', 'teammate1', 'teammate2', 'teammate3', 'teammate4'].forEach(id => {
-        const val = document.getElementById(id).value;
-        if (val) enemyIds.push(val);
-      });
+      const myId = document.getElementById('myHero')?.value;
+      const enemies = ['en_clash','en_jungle','en_mid','en_farm','en_support'].map(id => document.getElementById(id).value).filter(v => v);
       
-      const container = document.getElementById('suggestions');
-      
-      // Update suggestions (needs role + enemies)
-      if (!selectedRole || enemyIds.length === 0) {
-        container.innerHTML = '<h4 style="color: #10b981;">💡 Select role and pick enemies</h4>';
-        // DON'T return early - let other functions run!
-      } else {
-      
-      // Get suggestions
-      const suggestions = getCounterSuggestions(selectedRole, enemyIds);
-      
-      if (suggestions.length === 0) {
-        container.innerHTML = '<h4 style="color: #10b981;">💡 No counters found</h4>';
-        return;
-      }
-      
-      let html = '<h4 style="color: #10b981;">💡 Top Suggestions</h4>';
-      suggestions.slice(0, 5).forEach((s, i) => {
-        const hero = HEROES[s.id];
-        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '⭐';
-        html += '<div style="background: rgba(51,65,85,0.6); padding: 10px; margin: 8px 0; border-radius: 8px;">';
-        html += medal + ' <strong>' + (hero.nameEn || hero.nameCn) + '</strong> <span style="color: #94a3b8; font-size: 0.85rem;">(' + hero.nameCn + ')</span> <span style="margin-left: auto; color: #10b981; font-weight: 600;">Score: ' + s.score + '</span>';
-        html += '</div>';
-      });
-      
-      container.innerHTML = html;
-      }
-      
-      // These functions handle their own display logic
-      analyzeBuildAdvice(enemyIds);
-      analyzeGamePlan();
-      analyzeLaneMatchups();
-      analyzeBanRecommendations();  // Works with just your hero!
-      analyzeTeamSynergy();
-      displayPowerSpikeLine();  // Show YOUR power spikes!
-    }
-    
-    function getCounterSuggestions(role, enemyIds) {
-      const roleHeroes = Object.values(HEROES).filter(h => h.role === role);
-      
-      const scored = roleHeroes.map(hero => {
-        let score = 0;
-        
-        if (hero.counters) {
-          Object.keys(hero.counters).forEach(lane => {
-            const laneCounters = hero.counters[lane];
-            if (laneCounters && laneCounters.strong) {
-              laneCounters.strong.forEach(cid => {
-                if (enemyIds.includes(cid)) score += 3;
-              });
-            }
-          });
+      if (myId) {
+        document.getElementById('power-spike').style.display = 'block';
+        const myHero = HEROES[myId];
+
+        // 🚫 DRAFT BANS (META & LANE BANS)
+        const metaBans = Object.keys(HEROES).filter(k => HEROES[k].tier === 'S' && k !== myId).slice(0, 3).map(k => HEROES[k].name);
+        let laneBans = '';
+        switch(myHero.role) {
+            case 'Mage': laneBans = 'Broken Mirage, Stealthfin, High Shield Supports'; break;
+            case 'Marksman': laneBans = 'Shadowblade, Stealthfin, High Burst Assassins'; break;
+            case 'Tank': laneBans = 'Gunslinger, Unrivaled Warrior (True Damage)'; break;
+            case 'Fighter': laneBans = 'Harbinger, Seasinger, High CC Supports'; break;
+            case 'Assassin': laneBans = 'Harbinger, The Beast, Hard CC Tanks'; break;
+            case 'Support': laneBans = 'Harbinger, Seasinger, Healing Tone'; break;
+            default: laneBans = 'Strong meta counters';
         }
         
-        if (hero.tier === 'S') score += 2;
-        if (hero.tier === 'A') score += 1;
+        document.getElementById('ban-content').innerHTML = `
+          <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; border-left:3px solid #ef4444; margin-bottom:8px;">
+            <strong style="color:#f87171;">🔥 Meta Bans:</strong> ${metaBans.join(', ')}
+          </div>
+          <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; border-left:3px solid #fbbf24;">
+            <strong style="color:#fbbf24;">🛡️ Lane Bans:</strong> ${laneBans}
+          </div>
+        `;
         
-        return { id: hero.id, score: score };
-      });
-      
-      scored.sort((a, b) => b.score - a.score);
-      return scored.filter(s => s.score > 0);
-    }
-  
-    
-    function analyzeBuildAdvice(enemyIds) {
-      if (!selectedRole || enemyIds.length === 0) {
-        document.getElementById('build-advice').style.display = 'none';
-        return;
-      }
-      
-      document.getElementById('build-advice').style.display = 'block';
-      
-      // Get ONLY enemies from enemy dropdowns
-      const actualEnemyIds = ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5']
-        .map(id => document.getElementById(id).value)
-        .filter(v => v);
-      const enemies = actualEnemyIds.map(id => HEROES[id]).filter(h => h);
-      
-      // Only analyze if we have enemy picks
-      if (enemies.length === 0) {
-        document.getElementById('build-advice').style.display = 'none';
-        return;
-      }
-      const warnings = [];
-      
-      // Detect healers
-      const healers = ['caiyan', 'yao', 'dolia', 'ming', 'guiguzi', 'daqiao'];
-      const enemyHealers = enemies.filter(e => healers.includes(e.id));
-      
-      if (enemyHealers.length >= 2) {
-        warnings.push({
-          title: '❗❗ MULTIPLE HEALERS (' + enemyHealers.length + ')',
-          advice: 'RUSH ANTI-HEAL IN FIRST 2 ITEMS!',
-          items: ['Deadly Blade', 'Nightmare Touch']
-        });
-      } else if (enemyHealers.length === 1) {
-        warnings.push({
-          title: '❗ HEALER DETECTED',
-          advice: 'Get Anti-Heal Item',
-          items: ['Deadly Blade (Physical)', 'Nightmare Touch (Magical)']
-        });
-      }
-      
-      // Detect multiple tanks
-      const tanks = enemies.filter(e => e.role === 'Tank');
-      if (tanks.length >= 2) {
-        warnings.push({
-          title: '❗ MULTIPLE TANKS (' + tanks.length + ')',
-          advice: 'Stack Penetration',
-          items: ['Void Staff', 'Shadow Tomahawk', 'Armor Breaker']
-        });
-      }
-      
-      // Detect multiple mages
-      const mages = enemies.filter(e => e.role === 'Mage');
-      if (mages.length >= 2) {
-        warnings.push({
-          title: '❗ MULTIPLE MAGES (' + mages.length + ')',
-          advice: 'Build Magic Defense',
-          items: ['Athena Buckler', 'Witch Cape']
-        });
-      }
-      
-      // Detect multiple assassins
-      const assassins = enemies.filter(e => e.role === 'Assassin');
-      if (assassins.length >= 2) {
-        warnings.push({
-          title: '❗ MULTIPLE ASSASSINS (' + assassins.length + ')',
-          advice: 'Get Armor + HP Early',
-          items: ['Guardian Armor', 'Thornmail']
-        });
-      }
-      
-      // Display warnings
-      const container = document.getElementById('build-content');
-      
-      if (warnings.length === 0) {
-        container.innerHTML = '<p style="color: #94a3b8;">No specific threats. Build standard items for your role.</p>';
-        return;
-      }
-      
-      let html = '';
-      warnings.forEach(w => {
-        html += '<div style="background: rgba(239,68,68,0.15); padding: 10px; margin: 8px 0; border-radius: 8px; border-left: 3px solid #ef4444;">';
-        html += '<div style="color: #ef4444; font-weight: 600;">' + w.title + '</div>';
-        html += '<div style="color: #e2e8f0; margin-top: 4px;">→ ' + w.advice + '</div>';
-        if (w.items) {
-          html += '<div style="margin-top: 6px;">';
-          w.items.forEach(item => {
-            html += '<span style="background: rgba(239,68,68,0.2); padding: 3px 8px; margin-right: 5px; border-radius: 6px; font-size: 0.85rem; color: #fca5a5;">' + item + '</span>';
-          });
-          html += '</div>';
+        // 💡 AI STRATEGY & ROAM PRIORITY
+        document.getElementById('ai-strategy').style.display = 'block';
+        let roamTarget = '';
+        if (myHero.role === 'Mage') roamTarget = '🎯 **FARM LANE**: Snowball your ADC. If mid is pushed, clear and roam bottom immediately.';
+        else if (myHero.role === 'Assassin') roamTarget = '⚔️ **MID & FARM LANE**: Target squishy backliners. Look to invade their jungle with your Support.';
+        else if (myHero.role === 'Fighter') roamTarget = '🌲 **JUNGLE (Scout)**: Push your wave and take their small jungle camps or help secure the neutral objective.';
+        else if (myHero.role === 'Support') roamTarget = '🗺️ **MID & JUNGLE**: Help secure the river spirits early, then shadow your Jungler or Marksman based on who is fed.';
+        else roamTarget = '🛡️ **STAY IN LANE**: Focus on farming until the first tower falls.';
+
+        let winCon = '';
+        if (myHero.role === 'Marksman') winCon = 'Farm safely until 3 core items. Melt frontline and take towers.';
+        else winCon = 'Neutralize key S-Tier threats and control neutral objectives.';
+
+        document.getElementById('strategy-content').innerHTML = `
+          <div style="background:rgba(139,92,246,0.2); padding:10px; border-radius:8px; border:2px solid #a78bfa; margin-bottom:10px;">
+            <strong style="color:#a78bfa;">🎯 WIN CONDITION:</strong><p style="margin-top:4px;">${winCon}</p>
+          </div>
+          <div style="background:rgba(59,130,246,0.1); padding:10px; border-radius:8px; border-left:3px solid #3b82f6;">
+            <strong style="color:#60a5fa;">📍 ROAM PRIORITY:</strong><p style="margin-top:4px;">${roamTarget}</p>
+          </div>`;
+
+        // 🛠️ AI SITUATIONAL BUILD
+        const buildContent = document.getElementById('build-content');
+        let buildAdvice = [];
+        const enemyHeroes = enemies.map(id => HEROES[id]);
+        if (enemyHeroes.some(e => e.tags.includes('Healer') || e.tags.includes('Sustain'))) {
+          buildAdvice.push('<div class="build-card">🚨 **ANTI-HEAL REQUIRED**: Build **Venomous Staff** or **Mortal Punisher**.</div>');
         }
-        html += '</div>';
-      });
-      
-      container.innerHTML = html;
+        if (enemyHeroes.filter(e => e.role === 'Tank' || e.tags.includes('Tanky')).length >= 2) {
+          buildAdvice.push('<div class="build-card">🛡️ **PENETRATION**: Enemy is highly armored. Get **Starbreaker** or **Void Staff**.</div>');
+        }
+        if (enemyHeroes.some(e => e.tags.includes('Burst') || e.tags.includes('Invis'))) {
+          buildAdvice.push('<div class="build-card">💥 **BURST SURVIVAL**: Build **Succubus Cloak** (Magic) or **Ominous Premonition** (Physical).</div>');
+        }
+        buildContent.innerHTML = buildAdvice.length ? buildAdvice.join('') : 'Waiting for enemy composition to suggest situational items...';
+
+        displayPowerSpike(myId);
+      }
     }
 
-  
-    
-    function analyzeGamePlan() {
-      const yourHeroSelect = document.querySelector('#your-hero-select select');
-      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
+    function displayPowerSpike(heroId) {
+      const hero = HEROES[heroId];
+      const isEarly = hero.role === 'Assassin' || hero.tags.includes('Early Game');
+      const isLate = hero.role === 'Marksman';
       
-      const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
-        .map(id => document.getElementById(id).value)
-        .filter(v => v);
-      
-      const enemyIds = ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5']
-        .map(id => document.getElementById(id).value)
-        .filter(v => v);
-      
-      // Need at least some picks to analyze
-      if (!yourHeroId || enemyIds.length < 3) {
-        document.getElementById('game-plan').style.display = 'none';
-        return;
-      }
-      
-      document.getElementById('game-plan').style.display = 'block';
-      
-      // Build full team arrays
-      const yourTeam = [yourHeroId, ...teammateIds].map(id => HEROES[id]).filter(h => h);
-      const enemyTeam = enemyIds.map(id => HEROES[id]).filter(h => h);
-      
-      // Analyze compositions
-      const analysis = {
-        yourStrengths: [],
-        enemyWeaknesses: [],
-        threats: [],
-        strategy: []
-      };
-      
-      // Count role distribution
-      const yourRoles = {};
-      const enemyRoles = {};
-      
-      yourTeam.forEach(h => yourRoles[h.role] = (yourRoles[h.role] || 0) + 1);
-      enemyTeam.forEach(h => enemyRoles[h.role] = (enemyRoles[h.role] || 0) + 1);
-      
-      // Analyze your strengths
-      if (yourRoles.Tank >= 2) {
-        analysis.yourStrengths.push('Strong frontline - You can engage hard');
-      }
-      if (yourRoles.Assassin >= 2) {
-        analysis.yourStrengths.push('High burst damage - Pick off isolated enemies');
-      }
-      if (yourRoles.Mage >= 2) {
-        analysis.yourStrengths.push('Strong poke and wave clear');
-      }
-      if (yourRoles.Marksman >= 2) {
-        analysis.yourStrengths.push('Late game scaling - Farm safely early');
-      }
-      
-      // Analyze enemy weaknesses
-      if (!enemyRoles.Tank || enemyRoles.Tank === 0) {
-        analysis.enemyWeaknesses.push('⚠️ Enemy has NO TANK - They are squishy! Dive aggressively!');
-        // Strategy advice added in unified section
-      }
-      if (enemyRoles.Support === 0) {
-        analysis.enemyWeaknesses.push('No support/healer - Poke damage sticks');
-      }
-      if (enemyRoles.Marksman >= 2) {
-        analysis.enemyWeaknesses.push('Multiple marksmen - They need time to scale. END EARLY!');
-        // Strategy advice added in unified section
-      }
-      
-      // Identify threats
-      const healers = ['caiyan', 'yao', 'dolia', 'ming', 'guiguzi', 'daqiao'];
-      const enemyHealers = enemyTeam.filter(e => healers.includes(e.id));
-      
-      if (enemyHealers.length > 0) {
-        analysis.threats.push('🚨 Healer(s): ' + enemyHealers.map(h => h.nameEn).join(', ') + ' - FOCUS THEM in fights!');
-      }
-      
-      // Check for high damage threats
-      const sTierEnemies = enemyTeam.filter(e => e.tier === 'S');
-      if (sTierEnemies.length > 0) {
-        analysis.threats.push('💀 S-Tier threats: ' + sTierEnemies.map(h => h.nameEn).join(', ') + ' - Ban in ranked or counter-pick!');
-      }
-      
-      // Determine primary strategy (don't add contradictions!)
-      let primaryStrategy = null;
-      
-      // Check team composition advantages
-      if (yourTeam.length >= 4 && enemyTeam.length >= 4) {
-        const yourAvgTier = calculateAvgTier(yourTeam);
-        const enemyAvgTier = calculateAvgTier(enemyTeam);
-        
-        if (yourAvgTier < enemyAvgTier - 0.5) {
-          primaryStrategy = 'aggressive';
-          analysis.strategy.push('📊 Your draft is stronger → Play standard, win through better champions');
-        } else if (enemyAvgTier < yourAvgTier - 0.5) {
-          primaryStrategy = 'defensive';
-          analysis.strategy.push('📊 Enemy draft is stronger → Avoid fights, scale to items, make smart plays');
-        }
-      }
-      
-      // Only add aggressive advice if primary strategy isn't defensive
-      if (primaryStrategy !== 'defensive') {
-        if (enemyRoles.Marksman >= 2) {
-          analysis.strategy.push('⚡ Enemy has multiple marksmen → END EARLY! Rush objectives before they scale');
-        }
-        if (!enemyRoles.Tank || enemyRoles.Tank === 0) {
-          analysis.strategy.push('💥 Enemy has NO TANK → Play aggressive, force fights early');
-        }
-      }
-      
-      // Only add defensive advice if primary strategy isn't aggressive
-      if (primaryStrategy !== 'aggressive') {
-        if (yourRoles.Marksman >= 1 && enemyRoles.Assassin >= 2) {
-          analysis.strategy.push('⚠️ Protect your marksman! Enemy has assassins - group mid-late game');
-        }
-      }
-      
-      // Display analysis
-      const container = document.getElementById('game-plan-content');
-      
-      // Get hero-specific advice
-      const heroAdvice = yourHeroId ? getHeroSpecificAdvice(yourHeroId, enemyTeam) : [];
-      let html = '';
-      
-      // Display hero-specific advice FIRST
-      if (heroAdvice.length > 0) {
-        html += '<div style="background: rgba(59,130,246,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #3b82f6;"><strong style="color: #60a5fa;">🎯 YOUR HERO: ' + HEROES[yourHeroId].nameEn + '</strong>';
-        heroAdvice.forEach(adv => {
-          const color = adv.type === 'warning' ? '#ef4444' : adv.type === 'wincon' ? '#10b981' : '#60a5fa';
-          html += '<div style="margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 6px;">';
-          html += '<div style="color: ' + color + '; font-weight: 600;">' + adv.text + '</div>';
-          html += '<div style="color: #e2e8f0; margin-top: 4px; font-size: 0.95rem;">' + adv.tip + '</div>';
-          html += '</div>';
-        });
-        html += '</div>';
-      }
-      
-      if (analysis.yourStrengths.length > 0) {
-        html += '<div style="margin-bottom: 12px;"><strong style="color: #10b981;">✅ Your Strengths:</strong>';
-        analysis.yourStrengths.forEach(s => {
-          html += '<div style="color: #e2e8f0; margin-left: 10px; margin-top: 4px;">• ' + s + '</div>';
-        });
-        html += '</div>';
-      }
-      
-      if (analysis.enemyWeaknesses.length > 0) {
-        html += '<div style="margin-bottom: 12px;"><strong style="color: #f59e0b;">🎯 Enemy Weaknesses:</strong>';
-        analysis.enemyWeaknesses.forEach(w => {
-          html += '<div style="color: #e2e8f0; margin-left: 10px; margin-top: 4px;">• ' + w + '</div>';
-        });
-        html += '</div>';
-      }
-      
-      if (analysis.threats.length > 0) {
-        html += '<div style="margin-bottom: 12px;"><strong style="color: #ef4444;">⚠️ Watch Out For:</strong>';
-        analysis.threats.forEach(t => {
-          html += '<div style="color: #e2e8f0; margin-left: 10px; margin-top: 4px;">• ' + t + '</div>';
-        });
-        html += '</div>';
-      }
-      
-      if (analysis.strategy.length > 0) {
-        html += '<div style="background: rgba(139,92,246,0.2); padding: 10px; border-radius: 8px; margin-top: 12px;"><strong style="color: #a78bfa;">🎯 WIN CONDITION:</strong>';
-        analysis.strategy.forEach(s => {
-          html += '<div style="color: #e2e8f0; margin-top: 6px; font-weight: 600;">→ ' + s + '</div>';
-        });
-        html += '</div>';
-      }
-      
-      container.innerHTML = html || '<p style="color: #94a3b8;">Pick more heroes for detailed analysis</p>';
-    }
-    
-    function calculateAvgTier(team) {
-      const tierValues = { 'S': 1, 'A': 2, 'B': 3, 'C': 4 };
-      const total = team.reduce((sum, h) => sum + (tierValues[h.tier] || 3), 0);
-      return total / team.length;
-    }
+      const vE = isEarly ? 9 : (isLate ? 4 : 6);
+      const vM = isEarly ? 7 : (isLate ? 7 : 9);
+      const vL = isEarly ? 5 : (isLate ? 10 : 7);
 
-  
-    
-    function getHeroSpecificAdvice(yourHeroId, enemyTeam) {
-      const yourHero = HEROES[yourHeroId];
-      if (!yourHero) return [];
+      const phases = [['EARLY PHASE (Lvl 1-7)', vE, '#3b82f6'], ['MID PHASE (Lvl 8-12)', vM, '#8b5cf6'], ['LATE PHASE (Lvl 13-15)', vL, '#f59e0b']];
       
-      const advice = [];
-      
-      // Role-specific advice
-      if (yourHero.role === 'Marksman') {
-        const enemyAssassins = enemyTeam.filter(e => e.role === 'Assassin');
-        if (enemyAssassins.length >= 2) {
-          advice.push({
-            type: 'warning',
-            text: 'You\'re a marksman vs ' + enemyAssassins.length + ' assassins!',
-            tip: '→ Stay with your team. DON\'T farm alone. Buy Guardian Armor early.'
-          });
-        }
-        
-        const enemyTanks = enemyTeam.filter(e => e.role === 'Tank');
-        if (enemyTanks.length >= 2) {
-          advice.push({
-            type: 'info',
-            text: 'Enemy has multiple tanks',
-            tip: '→ Build penetration! (Void Staff, Armor Breaker). Kite back, don\'t face-tank.'
-          });
-        }
-        
-        advice.push({
-          type: 'wincon',
-          text: 'YOUR WIN CONDITION:',
-          tip: '→ Farm safely until 3+ items. Position in backline. Focus objectives after winning teamfights.'
-        });
-      }
-      
-      if (yourHero.role === 'Mage') {
-        const enemyDivers = enemyTeam.filter(e => e.role === 'Assassin' || e.role === 'Fighter');
-        if (enemyDivers.length >= 2) {
-          advice.push({
-            type: 'warning',
-            text: 'Enemy has ' + enemyDivers.length + ' dive threats!',
-            tip: '→ Position carefully! Get Witch Cape or Athena Buckler. Save skills for peel.'
-          });
-        }
-        
-        advice.push({
-          type: 'wincon',
-          text: 'YOUR WIN CONDITION:',
-          tip: '→ Poke before fights. Control mid for vision. Delete backline in teamfights.'
-        });
-      }
-      
-      if (yourHero.role === 'Assassin') {
-        const enemyMarksmen = enemyTeam.filter(e => e.role === 'Marksman');
-        const enemyMages = enemyTeam.filter(e => e.role === 'Mage');
-        
-        if (enemyMarksmen.length >= 1 || enemyMages.length >= 1) {
-          advice.push({
-            type: 'wincon',
-            text: 'YOUR WIN CONDITION:',
-            tip: '→ HUNT their backline! Wait for them to misposition, then DELETE them. Avoid fighting tanks.'
-          });
-        }
-        
-        const enemyTanks = enemyTeam.filter(e => e.role === 'Tank');
-        if (enemyTanks.length >= 2) {
-          advice.push({
-            type: 'info',
-            text: 'Enemy frontline is thicc',
-            tip: '→ Flank around fights. Target squishies only. Don\'t waste burst on tanks.'
-          });
-        }
-      }
-      
-      if (yourHero.role === 'Tank') {
-        advice.push({
-          type: 'wincon',
-          text: 'YOUR WIN CONDITION:',
-          tip: '→ Protect your carries. Engage when your team is ready. Absorb damage and CC.'
-        });
-        
-        const enemyTanks = enemyTeam.filter(e => e.role === 'Tank');
-        if (enemyTanks.length === 0) {
-          advice.push({
-            type: 'info',
-            text: 'Enemy has NO tank!',
-            tip: '→ You can engage super hard! They\'re all squishy. Start fights aggressively.'
-          });
-        }
-      }
-      
-      if (yourHero.role === 'Fighter') {
-        advice.push({
-          type: 'wincon',
-          text: 'YOUR WIN CONDITION:',
-          tip: '→ Split push side lanes. Duel isolated enemies. Join fights when fed.'
-        });
-      }
-      
-      if (yourHero.role === 'Support') {
-        advice.push({
-          type: 'wincon',
-          text: 'YOUR WIN CONDITION:',
-          tip: '→ Protect your carries. Provide vision. Roam to help losing lanes.'
-        });
-      }
-      
-      // Tier-based advice
-      if (yourHero.tier === 'S' || yourHero.tier === 'A') {
-        const highTierEnemies = enemyTeam.filter(e => e.tier === 'S');
-        if (highTierEnemies.length === 0) {
-          advice.push({
-            type: 'info',
-            text: 'You\'re the strongest hero on the map!',
-            tip: '→ Play aggressive. Look for kills. Your champion is meta.'
-          });
-        }
-      }
-      
-      return advice;
-    }
-
-      
-    // LANE MATCHUP ANALYSIS SYSTEM
-    function analyzeLaneMatchups() {
-      const yourHeroSelect = document.querySelector('#your-hero-select select');
-      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
-      
-      if (!yourHeroId) {
-        document.getElementById('lane-matchups').style.display = 'none';
-        return;
-      }
-      
-      // Get all heroes
-      const yourHero = HEROES[yourHeroId];
-      const teammates = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
-        .map(id => document.getElementById(id).value)
-        .map(id => id ? HEROES[id] : null)
-        .filter(h => h);
-      
-      const enemies = ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5']
-        .map(id => document.getElementById(id).value)
-        .map(id => id ? HEROES[id] : null)
-        .filter(h => h);
-      
-      if (enemies.length < 3) {
-        document.getElementById('lane-matchups').style.display = 'none';
-        return;
-      }
-      
-      document.getElementById('lane-matchups').style.display = 'block';
-      
-      // Assign lanes based on roles
-      const yourTeam = [yourHero, ...teammates];
-      const laneAssignments = assignLanes(yourTeam, enemies);
-      
-      // Analyze each matchup
-      const matchups = [];
-      const lanes = ['baron', 'mid', 'jungle', 'farm', 'support'];
-      
-      lanes.forEach(lane => {
-        if (laneAssignments.your[lane] && laneAssignments.enemy[lane]) {
-          const result = evaluateMatchup(
-            laneAssignments.your[lane], 
-            laneAssignments.enemy[lane],
-            lane
-          );
-          matchups.push({
-            lane: lane,
-            yourHero: laneAssignments.your[lane],
-            enemyHero: laneAssignments.enemy[lane],
-            result: result
-          });
-        }
+      let html = `<div style="margin-bottom:12px;"><strong>${hero.name}</strong> (Tier ${hero.tier})</div>`;
+      phases.forEach(([label, v, color]) => {
+        html += `
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:0.85rem;color:#94a3b8">${label}</span></div>
+          <div style="background:rgba(51,65,85,0.5);height:20px;border-radius:6px;overflow:hidden;margin-top:4px;">
+            <div style="background:${color};width:${v*10}%;height:100%;display:flex;align-items:center;padding-left:8px;font-size:0.75rem;font-weight:600;color:white;">${v}/10</div>
+          </div>
+        </div>`;
       });
+      html += `<div style="background:rgba(16,185,129,0.1);padding:10px;border-radius:8px;border-left:3px solid #10b981;">💡 Strategy for Beginners: Try to make plays when your power spike is highest!</div>`;
       
-      // Display results
-      displayLaneMatchups(matchups);
-    }
-    
-    function assignLanes(yourTeam, enemyTeam) {
-      const assignments = {
-        your: {},
-        enemy: {}
-      };
-      
-      // Simple lane assignment logic
-      function assignTeam(team, side) {
-        const assigned = {};
-        
-        // Mage → Mid
-        const mage = team.find(h => h.role === 'Mage' && !assigned[h.id]);
-        if (mage) { assignments[side].mid = mage; assigned[mage.id] = true; }
-        
-        // Marksman → Farm
-        const marksman = team.find(h => h.role === 'Marksman' && !assigned[h.id]);
-        if (marksman) { assignments[side].farm = marksman; assigned[marksman.id] = true; }
-        
-        // Assassin → Jungle (prefer) or Mid
-        const assassin = team.find(h => h.role === 'Assassin' && !assigned[h.id]);
-        if (assassin) { 
-          if (!assignments[side].jungle) {
-            assignments[side].jungle = assassin;
-          } else if (!assignments[side].mid) {
-            assignments[side].mid = assassin;
-          }
-          assigned[assassin.id] = true;
-        }
-        
-        // Tank → Baron or Support
-        const tank = team.find(h => h.role === 'Tank' && !assigned[h.id]);
-        if (tank) {
-          if (!assignments[side].baron) {
-            assignments[side].baron = tank;
-          } else {
-            assignments[side].support = tank;
-          }
-          assigned[tank.id] = true;
-        }
-        
-        // Fighter → Baron or Jungle
-        const fighter = team.find(h => h.role === 'Fighter' && !assigned[h.id]);
-        if (fighter) {
-          if (!assignments[side].baron) {
-            assignments[side].baron = fighter;
-          } else if (!assignments[side].jungle) {
-            assignments[side].jungle = fighter;
-          }
-          assigned[fighter.id] = true;
-        }
-        
-        // Support → Support
-        const support = team.find(h => h.role === 'Support' && !assigned[h.id]);
-        if (support) { assignments[side].support = support; assigned[support.id] = true; }
-        
-        // Fill remaining
-        team.forEach(h => {
-          if (!assigned[h.id]) {
-            if (!assignments[side].baron) assignments[side].baron = h;
-            else if (!assignments[side].jungle) assignments[side].jungle = h;
-            else if (!assignments[side].support) assignments[side].support = h;
-          }
-        });
-      }
-      
-      assignTeam(yourTeam, 'your');
-      assignTeam(enemyTeam, 'enemy');
-      
-      return assignments;
-    }
-    
-    function evaluateMatchup(yourHero, enemyHero, lane) {
-      let score = 0;  // Positive = you win, Negative = you lose
-      
-      // Check if you counter them
-      if (yourHero.counters) {
-        Object.keys(yourHero.counters).forEach(counterLane => {
-          const laneCounters = yourHero.counters[counterLane];
-          if (laneCounters && laneCounters.strong) {
-            if (laneCounters.strong.includes(enemyHero.id)) {
-              score += 3;  // Strong counter
-            }
-          }
-        });
-      }
-      
-      // Check if they counter you
-      if (enemyHero.counters) {
-        Object.keys(enemyHero.counters).forEach(counterLane => {
-          const laneCounters = enemyHero.counters[counterLane];
-          if (laneCounters && laneCounters.strong) {
-            if (laneCounters.strong.includes(yourHero.id)) {
-              score -= 3;  // They counter you
-            }
-          }
-        });
-      }
-      
-      // Tier advantage
-      const tierValue = { 'S': 3, 'A': 2, 'B': 1, 'C': 0 };
-      const yourTier = tierValue[yourHero.tier] || 1;
-      const enemyTier = tierValue[enemyHero.tier] || 1;
-      score += (yourTier - enemyTier);
-      
-      // Role matchups
-      const roleMatchups = {
-        'Tank': { 'Fighter': 1, 'Assassin': -1, 'Mage': -1 },
-        'Fighter': { 'Marksman': 2, 'Mage': 1, 'Tank': -1 },
-        'Assassin': { 'Mage': 2, 'Marksman': 2, 'Tank': -2 },
-        'Mage': { 'Tank': 1, 'Fighter': -1, 'Assassin': -2 },
-        'Marksman': { 'Tank': 1, 'Fighter': -2, 'Assassin': -2 },
-        'Support': { 'Assassin': -1 }
-      };
-      
-      if (roleMatchups[yourHero.role] && roleMatchups[yourHero.role][enemyHero.role]) {
-        score += roleMatchups[yourHero.role][enemyHero.role];
-      }
-      
-      // Determine result
-      let verdict, advice;
-      if (score >= 3) {
-        verdict = 'favorable';
-        advice = 'Play aggressive! You win this matchup. Push advantage early.';
-      } else if (score >= 1) {
-        verdict = 'slight_favor';
-        advice = 'You have a slight edge. Trade carefully and look for kills.';
-      } else if (score >= -1) {
-        verdict = 'even';
-        advice = 'Skill matchup. Focus on farming and avoid mistakes.';
-      } else if (score >= -3) {
-        verdict = 'slight_danger';
-        advice = 'Difficult matchup. Play safe and wait for ganks.';
-      } else {
-        verdict = 'danger';
-        advice = 'HARD COUNTER! Farm under tower. Ask for jungle help.';
-      }
-      
-      return { verdict, advice, score };
-    }
-    
-    function displayLaneMatchups(matchups) {
-      const container = document.getElementById('lane-matchups-content');
-      
-      const laneNames = {
-        'baron': '🏰 Baron Lane',
-        'mid': '⚔️ Mid Lane',
-        'jungle': '🌲 Jungle',
-        'farm': '🎯 Farm Lane',
-        'support': '💚 Support/Roam'
-      };
-      
-      const verdictColors = {
-        'favorable': '#10b981',
-        'slight_favor': '#34d399',
-        'even': '#f59e0b',
-        'slight_danger': '#fb923c',
-        'danger': '#ef4444'
-      };
-      
-      const verdictLabels = {
-        'favorable': '✅ FAVORABLE',
-        'slight_favor': '✓ SLIGHT EDGE',
-        'even': '⚖️ EVEN',
-        'slight_danger': '⚠ CAREFUL',
-        'danger': '❌ DANGER'
-      };
-      
-      let html = '';
-      let favorable = 0, danger = 0;
-      
-      matchups.forEach(m => {
-        if (m.result.verdict === 'favorable' || m.result.verdict === 'slight_favor') favorable++;
-        if (m.result.verdict === 'danger' || m.result.verdict === 'slight_danger') danger++;
-        
-        const color = verdictColors[m.result.verdict];
-        const label = verdictLabels[m.result.verdict];
-        
-        html += '<div style="background: rgba(51,65,85,0.6); padding: 12px; margin: 10px 0; border-radius: 8px; border-left: 4px solid ' + color + ';">';
-        html += '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">';
-        html += '<strong style="color: #e2e8f0;">' + laneNames[m.lane] + '</strong>';
-        html += '<span style="color: ' + color + '; font-weight: 600;">' + label + '</span>';
-        html += '</div>';
-        html += '<div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 6px;">';
-        html += (m.yourHero.nameEn || m.yourHero.nameCn) + ' vs ' + (m.enemyHero.nameEn || m.enemyHero.nameCn);
-        html += '</div>';
-        html += '<div style="color: #e2e8f0; font-size: 0.9rem;">→ ' + m.result.advice + '</div>';
-        html += '</div>';
-      });
-      
-      // Overall verdict
-      html = '<div style="background: rgba(139,92,246,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #a78bfa;"><strong style="color: #a78bfa;">📊 LANE PHASE VERDICT:</strong><div style="margin-top: 6px; color: #e2e8f0;">';
-      
-      const totalLanes = matchups.length;
-      const wonLanes = favorable;
-      const lostLanes = danger;
-      
-      if (wonLanes >= 3) {
-        html += '✅ You win ' + wonLanes + '/' + totalLanes + ' lanes → <strong style="color: #10b981;">PLAY AGGRESSIVE EARLY!</strong> Push your advantages.';
-      } else if (lostLanes >= 3) {
-        html += '⚠️ You lose ' + lostLanes + '/' + totalLanes + ' lanes → <strong style="color: #f59e0b;">FARM SAFE, SCALE UP!</strong> Avoid early fights.';
-      } else {
-        html += '⚖️ Lanes are balanced (' + wonLanes + ' won, ' + lostLanes + ' lost) → <strong style="color: #60a5fa;">SKILL MATCHUP!</strong> Win through better plays.';
-      }
-      
-      html += '</div></div>' + html;
-      
-      container.innerHTML = html;
+      document.getElementById('power-spike-content').innerHTML = html;
     }
 
-      
-    // BAN PHASE HELPER
-    function analyzeBanRecommendations() {
-      const yourHeroSelect = document.querySelector('#your-hero-select select');
-      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
-      console.log('🚫 Ban recommendations running, yourHeroId:', yourHeroId);
-      
-      const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
-        .map(id => document.getElementById(id).value)
-        .filter(v => v);
-      
-      // Show bans when you pick your hero
-      if (!yourHeroId) {
-        document.getElementById('ban-recommendations').style.display = 'none';
-        return;
-      }
-      
-      // Always show the section, even if no specific threats
-      const banDiv = document.getElementById('ban-recommendations');
-      console.log('🎨 Ban div before:', banDiv.style.display);
-      banDiv.style.display = 'block';
-      banDiv.style.minHeight = '100px';  // Force minimum height
-      banDiv.style.opacity = '1';
-      banDiv.style.visibility = 'visible';
-      console.log('🎨 Ban div after:', banDiv.style.display);
-      console.log('🎨 Ban div offsetHeight:', banDiv.offsetHeight);
-      console.log('🎨 Ban div scrollHeight:', banDiv.scrollHeight);
-      console.log('🎨 Ban div parent:', banDiv.parentElement.id);
-      
-      const yourTeam = [yourHeroId, ...teammateIds].map(id => HEROES[id]).filter(h => h);
-      
-      // Calculate ban priorities
-      const banCandidates = [];
-      
-      Object.values(HEROES).forEach(hero => {
-        // Don't recommend banning your own hero!
-        if (hero.id === yourHeroId) return;
-        
-        // Don't recommend banning your teammates either
-        if (teammateIds.includes(hero.id)) return;
-        
-        let banScore = 0;
-        let reasons = [];
-        
-        // S-tier heroes are always ban-worthy
-        if (hero.tier === 'S') {
-          banScore += 5;
-          reasons.push('S-tier meta pick - Always dangerous');
-        } else if (hero.tier === 'A') {
-          banScore += 2;
-          reasons.push('A-tier strong pick');
-        }
-        
-        // Check if hero counters anyone on your team
-        let countersYourTeam = 0;
-        yourTeam.forEach(ally => {
-          if (hero.counters) {
-            Object.keys(hero.counters).forEach(lane => {
-              const laneCounters = hero.counters[lane];
-              if (laneCounters && laneCounters.strong) {
-                if (laneCounters.strong.includes(ally.id)) {
-                  banScore += 4;
-                  countersYourTeam++;
-                }
-              }
-            });
-          }
-        });
-        
-        if (countersYourTeam > 0) {
-          reasons.push(`Counters ${countersYourTeam} of your heroes`);
-        }
-        
-        // Popular/annoying heroes
-        const annoying = ['yao', 'guiguzi', 'jing', 'daji', 'lanlingwang', 'augran'];
-        if (annoying.includes(hero.id)) {
-          banScore += 3;
-          reasons.push('High impact, hard to deal with');
-        }
-        
-        // Protect your marksman from assassins
-        const yourMarksmen = yourTeam.filter(h => h.role === 'Marksman');
-        if (yourMarksmen.length > 0 && hero.role === 'Assassin' && hero.tier === 'S') {
-          banScore += 3;
-          reasons.push('Assassin that threatens your marksman');
-        }
-        
-        // Protect your mage from dive
-        const yourMages = yourTeam.filter(h => h.role === 'Mage');
-        if (yourMages.length > 0 && (hero.role === 'Assassin' || hero.role === 'Fighter') && hero.tier === 'S') {
-          banScore += 2;
-          reasons.push('Dive threat to your mage');
-        }
-        
-        if (banScore >= 2 && reasons.length > 0) {
-          banCandidates.push({
-            hero: hero,
-            score: banScore,
-            reasons: reasons
-          });
-        }
-      });
-      
-      // Sort by score
-      banCandidates.sort((a, b) => b.score - a.score);
-      
-      // Display top 5 bans (or show message if none)
-      console.log('🚫 Ban candidates found:', banCandidates.length);
-      if (banCandidates.length > 0) {
-        displayBanRecommendations(banCandidates.slice(0, 5));
-      } else {
-        // Show generic S-tier bans
-        const genericBans = Object.values(HEROES)
-          .filter(h => h.tier === 'S')
-          .slice(0, 5)
-          .map(h => ({
-            hero: h,
-            score: 5,
-            reasons: ['S-tier meta pick - Always dangerous']
-          }));
-        displayBanRecommendations(genericBans);
-      }
-    }
-    
-    function displayBanRecommendations(bans) {
-      console.log('📺 displayBanRecommendations called with', bans.length, 'bans');
-      const container = document.getElementById('ban-recommendations-content');
-      console.log('📺 Container found:', container ? 'YES' : 'NO');
-      
-      if (bans.length === 0) {
-        container.innerHTML = '<p style="color: #94a3b8;">Pick your hero to see ban recommendations</p>';
-        return;
-      }
-      
-      let html = '<div style="margin-bottom: 12px; color: #e2e8f0;">';
-      html += '<strong style="color: #ef4444;">🚫 Recommended Bans (in priority order):</strong>';
-      html += '</div>';
-      
-      bans.forEach((ban, index) => {
-        const priority = index === 0 ? '🔴 TOP PRIORITY' : index === 1 ? '🟠 HIGH' : '🟡 MEDIUM';
-        const priorityColor = index === 0 ? '#ef4444' : index === 1 ? '#f59e0b' : '#eab308';
-        
-        html += '<div style="background: rgba(51,65,85,0.6); padding: 12px; margin: 10px 0; border-radius: 8px; border-left: 4px solid ' + priorityColor + ';">';
-        html += '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">';
-        html += '<strong style="color: #e2e8f0; font-size: 1.05rem;">' + (ban.hero.nameEn || ban.hero.nameCn) + '</strong>';
-        html += '<span style="color: ' + priorityColor + '; font-weight: 600; font-size: 0.85rem;">' + priority + '</span>';
-        html += '</div>';
-        
-        html += '<div style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 8px;">';
-        html += ban.hero.role + ' • Tier ' + ban.hero.tier;
-        html += '</div>';
-        
-        html += '<div style="color: #e2e8f0; font-size: 0.9rem;">';
-        html += '<strong style="color: #60a5fa;">Why ban:</strong>';
-        html += '<ul style="margin: 4px 0 0 20px;">';
-        ban.reasons.forEach(reason => {
-          html += '<li style="margin: 2px 0;">' + reason + '</li>';
-        });
-        html += '</ul>';
-        html += '</div>';
-        html += '</div>';
-      });
-      
-      console.log('📺 Setting innerHTML, length:', html.length);
-      console.log('📺 HTML content preview:', html.substring(0, 200));
-      container.innerHTML = html;
-      console.log('📺 innerHTML set successfully!');
-      console.log('📺 Container height after:', container.offsetHeight);
-      console.log('📺 Container content:', container.innerHTML.substring(0, 100));
-    }
-
-      
-    // TEAM SYNERGY ANALYSIS
-    function analyzeTeamSynergy() {
-      const yourHeroSelect = document.querySelector('#your-hero-select select');
-      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
-      
-      if (!yourHeroId) {
-        document.getElementById('team-synergy').style.display = 'none';
-        return;
-      }
-      
-      const teammateIds = ['teammate1', 'teammate2', 'teammate3', 'teammate4']
-        .map(id => document.getElementById(id).value)
-        .filter(v => v);
-      
-      if (teammateIds.length < 2) {
-        document.getElementById('team-synergy').style.display = 'none';
-        return;
-      }
-      
-      document.getElementById('team-synergy').style.display = 'block';
-      
-      const yourTeam = [HEROES[yourHeroId], ...teammateIds.map(id => HEROES[id])].filter(h => h);
-      
-      const synergies = findSynergies(yourTeam);
-      const antiSynergies = findAntiSynergies(yourTeam);
-      
-      displaySynergies(synergies, antiSynergies);
-    }
-    
-    function findSynergies(team) {
-      const synergies = [];
-      
-      // Known combo pairs
-      const combos = {
-        'yao': { partners: ['jing', 'augran', 'luna'], reason: 'Yao attaches for mobility + damage boost' },
-        'guiguzi': { partners: ['houyi', 'luban', 'marcopolo'], reason: 'Guiguzi invisibility → Perfect setup for ADC' },
-        'daji': { partners: ['gaochanggong', 'lanlingwang'], reason: 'Mage burst + Assassin cleanup combo' },
-        'ming': { partners: ['luban', 'houyi'], reason: 'Ming shields enable aggressive positioning' },
-        'donghuang': { partners: ['jing', 'gaochanggong'], reason: 'Ultimate lockdown → Easy assassin follow-up' },
-        'athena': { partners: ['luban', 'marcopolo'], reason: 'Global ult to protect marksman' },
-      };
-      
-      team.forEach((hero1, i) => {
-        if (combos[hero1.id]) {
-          team.forEach((hero2, j) => {
-            if (i !== j && combos[hero1.id].partners.includes(hero2.id)) {
-              synergies.push({
-                heroes: [hero1, hero2],
-                reason: combos[hero1.id].reason
-              });
-            }
-          });
-        }
-      });
-      
-      // Role synergies
-      const tanks = team.filter(h => h.role === 'Tank');
-      const supports = team.filter(h => h.role === 'Support');
-      const marksmen = team.filter(h => h.role === 'Marksman');
-      const assassins = team.filter(h => h.role === 'Assassin');
-      
-      if (tanks.length >= 1 && marksmen.length >= 1) {
-        synergies.push({
-          type: 'role',
-          reason: 'Tank frontline protects marksman → Standard comp structure'
-        });
-      }
-      
-      if (supports.length >= 1 && (marksmen.length >= 1 || assassins.length >= 1)) {
-        synergies.push({
-          type: 'role',
-          reason: 'Support enables carries → Good peel and utility'
-        });
-      }
-      
-      if (assassins.length >= 1 && team.some(h => h.role === 'Mage')) {
-        synergies.push({
-          type: 'role',
-          reason: 'Mage poke + Assassin dive → Poke then execute strategy'
-        });
-      }
-      
-      return synergies;
-    }
-    
-    function findAntiSynergies(team) {
-      const issues = [];
-      
-      // Count damage types
-      const physical = team.filter(h => 
-        h.role === 'Marksman' || h.role === 'Assassin' || h.role === 'Fighter'
-      ).length;
-      const magical = team.filter(h => h.role === 'Mage').length;
-      
-      if (physical >= 4 && magical === 0) {
-        issues.push({
-          type: 'damage',
-          severity: 'high',
-          problem: 'All physical damage (no magic)',
-          solution: 'Enemy will stack armor. Very easy to itemize against you.'
-        });
-      } else if (physical >= 3 && magical <= 1) {
-        issues.push({
-          type: 'damage',
-          severity: 'medium',
-          problem: 'Too much physical damage (' + physical + ' heroes)',
-          solution: 'Enemy can build armor. Consider adding magic damage.'
-        });
-      }
-      
-      if (magical >= 3 && physical <= 1) {
-        issues.push({
-          type: 'damage',
-          severity: 'medium',
-          problem: 'Too much magic damage',
-          solution: 'Enemy will build magic resist. Need more physical threat.'
-        });
-      }
-      
-      // Multiple of same role
-      const roles = {};
-      team.forEach(h => roles[h.role] = (roles[h.role] || 0) + 1);
-      
-      if (roles.Marksman >= 3) {
-        issues.push({
-          type: 'composition',
-          severity: 'high',
-          problem: '3+ marksmen = Very weak early game',
-          solution: 'All need farm. Will get run over early. Extremely risky.'
-        });
-      }
-      
-      if (roles.Assassin >= 3) {
-        issues.push({
-          type: 'composition',
-          severity: 'medium',
-          problem: '3+ assassins = Squishy, no frontline',
-          solution: 'Hard to teamfight. Must snowball early or lose.'
-        });
-      }
-      
-      // No tank or support
-      if (!roles.Tank && !roles.Support) {
-        issues.push({
-          type: 'composition',
-          severity: 'medium',
-          problem: 'No tank or support = Fragile team',
-          solution: 'Hard to engage teamfights. Vulnerable to enemy engage.'
-        });
-      }
-      
-      return issues;
-    }
-    
-    function displaySynergies(synergies, issues) {
-      const container = document.getElementById('team-synergy-content');
-      let html = '';
-      
-      // Show synergies
-      if (synergies.length > 0) {
-        html += '<div style="margin-bottom: 15px;"><strong style="color: #10b981;">💎 STRONG SYNERGIES:</strong>';
-        synergies.forEach(syn => {
-          html += '<div style="background: rgba(16,185,129,0.15); padding: 10px; margin: 8px 0; border-radius: 8px; border-left: 3px solid #10b981;">';
-          if (syn.heroes) {
-            html += '<div style="color: #e2e8f0; font-weight: 600;">';
-            html += (syn.heroes[0].nameEn || syn.heroes[0].nameCn) + ' + ' + (syn.heroes[1].nameEn || syn.heroes[1].nameCn);
-            html += '</div>';
-          }
-          html += '<div style="color: #94a3b8; font-size: 0.9rem; margin-top: 4px;">→ ' + syn.reason + '</div>';
-          html += '</div>';
-        });
-        html += '</div>';
-      }
-      
-      // Show anti-synergies / issues
-      if (issues.length > 0) {
-        html += '<div><strong style="color: #ef4444;">⚠️ COMPOSITION ISSUES:</strong>';
-        issues.forEach(issue => {
-          const borderColor = issue.severity === 'high' ? '#ef4444' : '#f59e0b';
-          html += '<div style="background: rgba(239,68,68,0.15); padding: 10px; margin: 8px 0; border-radius: 8px; border-left: 3px solid ' + borderColor + ';">';
-          html += '<div style="color: #ef4444; font-weight: 600;">' + issue.problem + '</div>';
-          html += '<div style="color: #e2e8f0; font-size: 0.9rem; margin-top: 4px;">→ ' + issue.solution + '</div>';
-          html += '</div>';
-        });
-        html += '</div>';
-      }
-      
-      if (synergies.length === 0 && issues.length === 0) {
-        html = '<p style="color: #94a3b8;">Pick more teammates to see synergy analysis</p>';
-      }
-      
-      container.innerHTML = html;
-    }
-
-  
-    
-    // NUCLEAR TEST - Force show ban recommendations
-    function testBanRecommendations() {
-      console.log('💥 NUCLEAR TEST - Forcing ban recommendations to show');
-      
-      const banDiv = document.getElementById('ban-recommendations');
-      const contentDiv = document.getElementById('ban-recommendations-content');
-      
-      console.log('💥 Ban div:', banDiv);
-      console.log('💥 Content div:', contentDiv);
-      
-      if (banDiv) {
-        // Force styles inline
-        banDiv.setAttribute('style', 'display: block !important; margin-top: 20px; padding: 15px; background: rgba(239,68,68,0.1); border-radius: 10px; border: 2px solid rgba(239,68,68,0.3); min-height: 200px; visibility: visible !important; opacity: 1 !important; position: relative; z-index: 9999;');
-        console.log('💥 Set inline styles on ban div');
-      }
-      
-      if (contentDiv) {
-        contentDiv.innerHTML = '<h4 style="color: #ef4444;">🚫 TEST - If you see this, the div works!</h4><p style="color: white;">Ban recommendations should appear here.</p>';
-        console.log('💥 Set test content');
-      }
-      
-      console.log('💥 Ban div computed display:', window.getComputedStyle(banDiv).display);
-      console.log('💥 Ban div computed visibility:', window.getComputedStyle(banDiv).visibility);
-      console.log('💥 Ban div offsetHeight:', banDiv.offsetHeight);
-      console.log('💥 Ban div offsetTop:', banDiv.offsetTop);
-    }
-
-      
-    // POWER SPIKE DATA
-    const POWER_SPIKE_PROFILES = {
-      // Early game snowballers
-      early: {
-        early: 9,    // 1-7
-        mid: 7,      // 8-12
-        late: 4,     // 13-15
-        peak: 'early',
-        advice: 'Dominate early! Pressure lanes, invade jungle, snowball before enemies scale.',
-        milestones: [
-          { level: 1, text: 'Strong level 1 - Can contest jungle/lane aggressively' },
-          { level: 4, text: 'Ultimate unlocked - Gank potential spikes' },
-          { level: 8, text: 'Skills maxed - Peak early power' }
-        ],
-        warning: 'Falls off late game - MUST snowball to win!'
-      },
-      
-      // Mid game focused
-      mid: {
-        early: 6,
-        mid: 10,
-        late: 6,
-        peak: 'mid',
-        advice: 'Peak at mid game! Farm to level 8-12, then dominate teamfights.',
-        milestones: [
-          { level: 4, text: 'Ultimate unlocked - Can start fighting' },
-          { level: 8, text: 'First skill maxed - Power spike begins' },
-          { level: 12, text: 'Peak power - Dominate teamfights now!' }
-        ],
-        warning: 'Don\'t fight too early or too late - wait for your window!'
-      },
-      
-      // Late game scalers
-      late: {
-        early: 4,
-        mid: 7,
-        late: 10,
-        peak: 'late',
-        advice: 'Weak early! Farm safely, avoid fights, scale to late game.',
-        milestones: [
-          { level: 4, text: 'Ultimate unlocked - Still weak, keep farming' },
-          { level: 8, text: 'Getting stronger - Can join small fights' },
-          { level: 12, text: 'Strong now - Full build = unstoppable' }
-        ],
-        warning: 'Survive early game! Your team needs to hold until you scale.'
-      },
-      
-      // Balanced
-      balanced: {
-        early: 7,
-        mid: 7,
-        late: 7,
-        peak: 'all',
-        advice: 'Consistent power! Useful at all stages of the game.',
-        milestones: [
-          { level: 4, text: 'Ultimate unlocked - Good at all stages' },
-          { level: 8, text: 'Skills maxed - Solid power level' },
-          { level: 12, text: 'Full build - Maintains usefulness' }
-        ],
-        warning: 'No clear power spike - play around team composition.'
-      }
-    };
-    
-    // Assign power spike profiles to heroes
-    function getHeroPowerSpike(heroId) {
-      // Early game snowballers
-      if (['lanlingwang', 'gaochanggong', 'daji', 'angela', 'butterfly', 'nakoruru'].includes(heroId)) {
-        return POWER_SPIKE_PROFILES.early;
-      }
-      
-      // Late game scalers (marksmen, some mages)
-      if (['houyi', 'marcopolo', 'luban', 'yao', 'diaochan', 'shangguan', 'jing'].includes(heroId)) {
-        return POWER_SPIKE_PROFILES.late;
-      }
-      
-      // Mid game focused (most fighters, some assassins)
-      if (['guanyu', 'lubu', 'mulan', 'athena', 'augran', 'mengtian'].includes(heroId)) {
-        return POWER_SPIKE_PROFILES.mid;
-      }
-      
-      // Default to balanced
-      return POWER_SPIKE_PROFILES.balanced;
-    }
-    
-    // Display power spike timeline
-    function displayPowerSpikeLine() {
-      const yourHeroSelect = document.querySelector('#your-hero-select select');
-      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
-      
-      if (!yourHeroId) {
-        document.getElementById('power-spike').style.display = 'none';
-        return;
-      }
-      
-      document.getElementById('power-spike').style.display = 'block';
-      
-      const hero = HEROES[yourHeroId];
-      const spike = getHeroPowerSpike(yourHeroId);
-      
-      const container = document.getElementById('power-spike-content');
-      
-      let html = '';
-      
-      // Hero name
-      html += '<div style="margin-bottom: 15px;">';
-      html += '<strong style="color: #60a5fa; font-size: 1.1rem;">' + (hero.nameEn || hero.nameCn) + '</strong>';
-      html += '</div>';
-      
-      // Power bars
-      html += '<div style="margin-bottom: 20px;">';
-      
-      // Early game
-      html += '<div style="margin-bottom: 12px;">';
-      html += '<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">';
-      html += '<span style="color: #94a3b8; font-size: 0.9rem;">EARLY GAME (Levels 1-7)</span>';
-      html += '<span style="color: ' + (spike.peak === 'early' ? '#10b981' : '#94a3b8') + '; font-size: 0.85rem; font-weight: 600;">';
-      html += spike.peak === 'early' ? '⭐ PEAK' : '';
-      html += '</span>';
-      html += '</div>';
-      html += '<div style="background: rgba(51,65,85,0.5); height: 24px; border-radius: 6px; overflow: hidden;">';
-      html += '<div style="background: linear-gradient(90deg, #3b82f6, #60a5fa); width: ' + (spike.early * 10) + '%; height: 100%; display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 600; color: white;">';
-      html += spike.early + '/10';
-      html += '</div></div></div>';
-      
-      // Mid game
-      html += '<div style="margin-bottom: 12px;">';
-      html += '<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">';
-      html += '<span style="color: #94a3b8; font-size: 0.9rem;">MID GAME (Levels 8-12)</span>';
-      html += '<span style="color: ' + (spike.peak === 'mid' ? '#10b981' : '#94a3b8') + '; font-size: 0.85rem; font-weight: 600;">';
-      html += spike.peak === 'mid' ? '⭐ PEAK' : '';
-      html += '</span>';
-      html += '</div>';
-      html += '<div style="background: rgba(51,65,85,0.5); height: 24px; border-radius: 6px; overflow: hidden;">';
-      html += '<div style="background: linear-gradient(90deg, #8b5cf6, #a78bfa); width: ' + (spike.mid * 10) + '%; height: 100%; display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 600; color: white;">';
-      html += spike.mid + '/10';
-      html += '</div></div></div>';
-      
-      // Late game
-      html += '<div style="margin-bottom: 12px;">';
-      html += '<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">';
-      html += '<span style="color: #94a3b8; font-size: 0.9rem;">LATE GAME (Levels 13-15)</span>';
-      html += '<span style="color: ' + (spike.peak === 'late' ? '#10b981' : '#94a3b8') + '; font-size: 0.85rem; font-weight: 600;">';
-      html += spike.peak === 'late' ? '⭐ PEAK' : '';
-      html += '</span>';
-      html += '</div>';
-      html += '<div style="background: rgba(51,65,85,0.5); height: 24px; border-radius: 6px; overflow: hidden;">';
-      html += '<div style="background: linear-gradient(90deg, #f59e0b, #fbbf24); width: ' + (spike.late * 10) + '%; height: 100%; display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 600; color: white;">';
-      html += spike.late + '/10';
-      html += '</div></div></div>';
-      
-      html += '</div>';
-      
-      // Key milestones
-      html += '<div style="background: rgba(59,130,246,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #3b82f6;">';
-      html += '<strong style="color: #60a5fa;">🎯 Key Milestones:</strong>';
-      html += '<ul style="margin: 8px 0 0 20px; color: #e2e8f0;">';
-      spike.milestones.forEach(m => {
-        html += '<li style="margin: 4px 0; font-size: 0.9rem;">Level ' + m.level + ': ' + m.text + '</li>';
-      });
-      html += '</ul></div>';
-      
-      // Strategy advice
-      html += '<div style="background: rgba(16,185,129,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #10b981;">';
-      html += '<strong style="color: #10b981;">💡 Strategy:</strong>';
-      html += '<p style="margin: 6px 0 0 0; color: #e2e8f0; font-size: 0.9rem;">' + spike.advice + '</p>';
-      html += '</div>';
-      
-      // Warning
-      if (spike.warning) {
-        html += '<div style="background: rgba(239,68,68,0.1); padding: 12px; border-radius: 8px; border-left: 3px solid #ef4444;">';
-        html += '<strong style="color: #ef4444;">⚠️ Important:</strong>';
-        html += '<p style="margin: 6px 0 0 0; color: #e2e8f0; font-size: 0.9rem;">' + spike.warning + '</p>';
-        html += '</div>';
-      }
-      
-      container.innerHTML = html;
-    }
-
+    window.onload = initEnemyDropdowns;
   </script>
 </body>
 </html>
