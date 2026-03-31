@@ -142,8 +142,7 @@
         <div id="game-plan" style="margin-top: 20px; padding: 15px; background: rgba(139,92,246,0.1); border-radius: 10px; border: 2px solid rgba(139,92,246,0.3); display: none;">
           <h4 style="color: #a78bfa; margin-bottom: 10px;">🎮 Game Plan</h4>
           <div id="game-plan-content"></div>
-        
-        
+        </div>
         
         <div id="ban-recommendations" style="margin-top: 20px; padding: 15px; background: rgba(239,68,68,0.1); border-radius: 10px; border: 2px solid rgba(239,68,68,0.3); display: none;">
           <h4 style="color: #ef4444; margin-bottom: 10px;">🚫 Ban Recommendations</h4>
@@ -1683,6 +1682,8 @@
     
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
+      // Run nuclear test after 1 second
+      setTimeout(testBanRecommendations, 1000);
       populateEnemyDropdowns();
       console.log('✅ Draft loaded:', Object.keys(HEROES).length, 'heroes');
     });
@@ -1739,10 +1740,11 @@
       
       const container = document.getElementById('suggestions');
       
+      // Update suggestions (needs role + enemies)
       if (!selectedRole || enemyIds.length === 0) {
         container.innerHTML = '<h4 style="color: #10b981;">💡 Select role and pick enemies</h4>';
-        return;
-      }
+        // DON'T return early - let other functions run!
+      } else {
       
       // Get suggestions
       const suggestions = getCounterSuggestions(selectedRole, enemyIds);
@@ -1762,12 +1764,13 @@
       });
       
       container.innerHTML = html;
+      }
       
-      // Also show build advice
+      // These functions handle their own display logic
       analyzeBuildAdvice(enemyIds);
       analyzeGamePlan();
       analyzeLaneMatchups();
-      analyzeBanRecommendations();
+      analyzeBanRecommendations();  // Works with just your hero!
       analyzeTeamSynergy();
     }
     
@@ -2478,7 +2481,16 @@
       }
       
       // Always show the section, even if no specific threats
-      document.getElementById('ban-recommendations').style.display = 'block';
+      const banDiv = document.getElementById('ban-recommendations');
+      console.log('🎨 Ban div before:', banDiv.style.display);
+      banDiv.style.display = 'block';
+      banDiv.style.minHeight = '100px';  // Force minimum height
+      banDiv.style.opacity = '1';
+      banDiv.style.visibility = 'visible';
+      console.log('🎨 Ban div after:', banDiv.style.display);
+      console.log('🎨 Ban div offsetHeight:', banDiv.offsetHeight);
+      console.log('🎨 Ban div scrollHeight:', banDiv.scrollHeight);
+      console.log('🎨 Ban div parent:', banDiv.parentElement.id);
       
       const yourTeam = [yourHeroId, ...teammateIds].map(id => HEROES[id]).filter(h => h);
       
@@ -2570,7 +2582,9 @@
     }
     
     function displayBanRecommendations(bans) {
+      console.log('📺 displayBanRecommendations called with', bans.length, 'bans');
       const container = document.getElementById('ban-recommendations-content');
+      console.log('📺 Container found:', container ? 'YES' : 'NO');
       
       if (bans.length === 0) {
         container.innerHTML = '<p style="color: #94a3b8;">Pick your hero to see ban recommendations</p>';
@@ -2606,7 +2620,12 @@
         html += '</div>';
       });
       
+      console.log('📺 Setting innerHTML, length:', html.length);
+      console.log('📺 HTML content preview:', html.substring(0, 200));
       container.innerHTML = html;
+      console.log('📺 innerHTML set successfully!');
+      console.log('📺 Container height after:', container.offsetHeight);
+      console.log('📺 Container content:', container.innerHTML.substring(0, 100));
     }
 
       
@@ -2802,6 +2821,35 @@
       }
       
       container.innerHTML = html;
+    }
+
+  
+    
+    // NUCLEAR TEST - Force show ban recommendations
+    function testBanRecommendations() {
+      console.log('💥 NUCLEAR TEST - Forcing ban recommendations to show');
+      
+      const banDiv = document.getElementById('ban-recommendations');
+      const contentDiv = document.getElementById('ban-recommendations-content');
+      
+      console.log('💥 Ban div:', banDiv);
+      console.log('💥 Content div:', contentDiv);
+      
+      if (banDiv) {
+        // Force styles inline
+        banDiv.setAttribute('style', 'display: block !important; margin-top: 20px; padding: 15px; background: rgba(239,68,68,0.1); border-radius: 10px; border: 2px solid rgba(239,68,68,0.3); min-height: 200px; visibility: visible !important; opacity: 1 !important; position: relative; z-index: 9999;');
+        console.log('💥 Set inline styles on ban div');
+      }
+      
+      if (contentDiv) {
+        contentDiv.innerHTML = '<h4 style="color: #ef4444;">🚫 TEST - If you see this, the div works!</h4><p style="color: white;">Ban recommendations should appear here.</p>';
+        console.log('💥 Set test content');
+      }
+      
+      console.log('💥 Ban div computed display:', window.getComputedStyle(banDiv).display);
+      console.log('💥 Ban div computed visibility:', window.getComputedStyle(banDiv).visibility);
+      console.log('💥 Ban div offsetHeight:', banDiv.offsetHeight);
+      console.log('💥 Ban div offsetTop:', banDiv.offsetTop);
     }
 
   </script>
