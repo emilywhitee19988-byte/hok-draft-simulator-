@@ -2499,6 +2499,12 @@
       const banCandidates = [];
       
       Object.values(HEROES).forEach(hero => {
+        // Don't recommend banning your own hero!
+        if (hero.id === yourHeroId) return;
+        
+        // Don't recommend banning your teammates either
+        if (teammateIds.includes(hero.id)) return;
+        
         let banScore = 0;
         let reasons = [];
         
