@@ -67,7 +67,7 @@
 </head>
 <body>
     <div class="container">
-    <a href="YOUR_TIER_LIST_URL_HERE" style="
+    <a href="index.html" style="
       display: inline-block;
       margin-bottom: 20px;
       padding: 10px 20px;
@@ -113,6 +113,11 @@
           <option value="">Teammate 4</option>
         </select>
       </div>
+        
+        <div id="power-spike" style="margin-top: 20px; padding: 15px; background: rgba(59,130,246,0.1); border-radius: 10px; border: 2px solid rgba(59,130,246,0.3); display: none;">
+          <h4 style="color: #60a5fa; margin-bottom: 10px;">⚡ Your Power Spikes</h4>
+          <div id="power-spike-content"></div>
+        </div>
       
       <div class="panel">
         <h2>⚔️ Enemy Team</h2>
@@ -238,6 +243,13 @@
         pickRate: 18.0,
         banRate: 25.0,
         avatar: '🦊'
+      },
+      'haya': { 
+        id: 'haya', 
+        nameCn: '不知火舞', 
+        nameEn: 'Everfrost',
+        role: 'Mage',
+        tier: 'A'
       },
       'gaochanggong': {
         id: 'gaochanggong',
@@ -1773,6 +1785,7 @@
       analyzeLaneMatchups();
       analyzeBanRecommendations();  // Works with just your hero!
       analyzeTeamSynergy();
+      displayPowerSpikeLine();  // Show YOUR power spikes!
     }
     
     function getCounterSuggestions(role, enemyIds) {
@@ -2857,6 +2870,185 @@
       console.log('💥 Ban div computed visibility:', window.getComputedStyle(banDiv).visibility);
       console.log('💥 Ban div offsetHeight:', banDiv.offsetHeight);
       console.log('💥 Ban div offsetTop:', banDiv.offsetTop);
+    }
+
+      
+    // POWER SPIKE DATA
+    const POWER_SPIKE_PROFILES = {
+      // Early game snowballers
+      early: {
+        early: 9,    // 1-7
+        mid: 7,      // 8-12
+        late: 4,     // 13-15
+        peak: 'early',
+        advice: 'Dominate early! Pressure lanes, invade jungle, snowball before enemies scale.',
+        milestones: [
+          { level: 1, text: 'Strong level 1 - Can contest jungle/lane aggressively' },
+          { level: 4, text: 'Ultimate unlocked - Gank potential spikes' },
+          { level: 8, text: 'Skills maxed - Peak early power' }
+        ],
+        warning: 'Falls off late game - MUST snowball to win!'
+      },
+      
+      // Mid game focused
+      mid: {
+        early: 6,
+        mid: 10,
+        late: 6,
+        peak: 'mid',
+        advice: 'Peak at mid game! Farm to level 8-12, then dominate teamfights.',
+        milestones: [
+          { level: 4, text: 'Ultimate unlocked - Can start fighting' },
+          { level: 8, text: 'First skill maxed - Power spike begins' },
+          { level: 12, text: 'Peak power - Dominate teamfights now!' }
+        ],
+        warning: 'Don\'t fight too early or too late - wait for your window!'
+      },
+      
+      // Late game scalers
+      late: {
+        early: 4,
+        mid: 7,
+        late: 10,
+        peak: 'late',
+        advice: 'Weak early! Farm safely, avoid fights, scale to late game.',
+        milestones: [
+          { level: 4, text: 'Ultimate unlocked - Still weak, keep farming' },
+          { level: 8, text: 'Getting stronger - Can join small fights' },
+          { level: 12, text: 'Strong now - Full build = unstoppable' }
+        ],
+        warning: 'Survive early game! Your team needs to hold until you scale.'
+      },
+      
+      // Balanced
+      balanced: {
+        early: 7,
+        mid: 7,
+        late: 7,
+        peak: 'all',
+        advice: 'Consistent power! Useful at all stages of the game.',
+        milestones: [
+          { level: 4, text: 'Ultimate unlocked - Good at all stages' },
+          { level: 8, text: 'Skills maxed - Solid power level' },
+          { level: 12, text: 'Full build - Maintains usefulness' }
+        ],
+        warning: 'No clear power spike - play around team composition.'
+      }
+    };
+    
+    // Assign power spike profiles to heroes
+    function getHeroPowerSpike(heroId) {
+      // Early game snowballers
+      if (['lanlingwang', 'gaochanggong', 'daji', 'angela', 'butterfly', 'nakoruru'].includes(heroId)) {
+        return POWER_SPIKE_PROFILES.early;
+      }
+      
+      // Late game scalers (marksmen, some mages)
+      if (['houyi', 'marcopolo', 'luban', 'yao', 'diaochan', 'shangguan', 'jing'].includes(heroId)) {
+        return POWER_SPIKE_PROFILES.late;
+      }
+      
+      // Mid game focused (most fighters, some assassins)
+      if (['guanyu', 'lubu', 'mulan', 'athena', 'augran', 'mengtian'].includes(heroId)) {
+        return POWER_SPIKE_PROFILES.mid;
+      }
+      
+      // Default to balanced
+      return POWER_SPIKE_PROFILES.balanced;
+    }
+    
+    // Display power spike timeline
+    function displayPowerSpikeLine() {
+      const yourHeroSelect = document.querySelector('#your-hero-select select');
+      const yourHeroId = yourHeroSelect ? yourHeroSelect.value : null;
+      
+      if (!yourHeroId) {
+        document.getElementById('power-spike').style.display = 'none';
+        return;
+      }
+      
+      document.getElementById('power-spike').style.display = 'block';
+      
+      const hero = HEROES[yourHeroId];
+      const spike = getHeroPowerSpike(yourHeroId);
+      
+      const container = document.getElementById('power-spike-content');
+      
+      let html = '';
+      
+      // Hero name
+      html += '<div style="margin-bottom: 15px;">';
+      html += '<strong style="color: #60a5fa; font-size: 1.1rem;">' + (hero.nameEn || hero.nameCn) + '</strong>';
+      html += '</div>';
+      
+      // Power bars
+      html += '<div style="margin-bottom: 20px;">';
+      
+      // Early game
+      html += '<div style="margin-bottom: 12px;">';
+      html += '<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">';
+      html += '<span style="color: #94a3b8; font-size: 0.9rem;">EARLY GAME (Levels 1-7)</span>';
+      html += '<span style="color: ' + (spike.peak === 'early' ? '#10b981' : '#94a3b8') + '; font-size: 0.85rem; font-weight: 600;">';
+      html += spike.peak === 'early' ? '⭐ PEAK' : '';
+      html += '</span>';
+      html += '</div>';
+      html += '<div style="background: rgba(51,65,85,0.5); height: 24px; border-radius: 6px; overflow: hidden;">';
+      html += '<div style="background: linear-gradient(90deg, #3b82f6, #60a5fa); width: ' + (spike.early * 10) + '%; height: 100%; display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 600; color: white;">';
+      html += spike.early + '/10';
+      html += '</div></div></div>';
+      
+      // Mid game
+      html += '<div style="margin-bottom: 12px;">';
+      html += '<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">';
+      html += '<span style="color: #94a3b8; font-size: 0.9rem;">MID GAME (Levels 8-12)</span>';
+      html += '<span style="color: ' + (spike.peak === 'mid' ? '#10b981' : '#94a3b8') + '; font-size: 0.85rem; font-weight: 600;">';
+      html += spike.peak === 'mid' ? '⭐ PEAK' : '';
+      html += '</span>';
+      html += '</div>';
+      html += '<div style="background: rgba(51,65,85,0.5); height: 24px; border-radius: 6px; overflow: hidden;">';
+      html += '<div style="background: linear-gradient(90deg, #8b5cf6, #a78bfa); width: ' + (spike.mid * 10) + '%; height: 100%; display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 600; color: white;">';
+      html += spike.mid + '/10';
+      html += '</div></div></div>';
+      
+      // Late game
+      html += '<div style="margin-bottom: 12px;">';
+      html += '<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">';
+      html += '<span style="color: #94a3b8; font-size: 0.9rem;">LATE GAME (Levels 13-15)</span>';
+      html += '<span style="color: ' + (spike.peak === 'late' ? '#10b981' : '#94a3b8') + '; font-size: 0.85rem; font-weight: 600;">';
+      html += spike.peak === 'late' ? '⭐ PEAK' : '';
+      html += '</span>';
+      html += '</div>';
+      html += '<div style="background: rgba(51,65,85,0.5); height: 24px; border-radius: 6px; overflow: hidden;">';
+      html += '<div style="background: linear-gradient(90deg, #f59e0b, #fbbf24); width: ' + (spike.late * 10) + '%; height: 100%; display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 600; color: white;">';
+      html += spike.late + '/10';
+      html += '</div></div></div>';
+      
+      html += '</div>';
+      
+      // Key milestones
+      html += '<div style="background: rgba(59,130,246,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #3b82f6;">';
+      html += '<strong style="color: #60a5fa;">🎯 Key Milestones:</strong>';
+      html += '<ul style="margin: 8px 0 0 20px; color: #e2e8f0;">';
+      spike.milestones.forEach(m => {
+        html += '<li style="margin: 4px 0; font-size: 0.9rem;">Level ' + m.level + ': ' + m.text + '</li>';
+      });
+      html += '</ul></div>';
+      
+      // Strategy advice
+      html += '<div style="background: rgba(16,185,129,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #10b981;">';
+      html += '<strong style="color: #10b981;">💡 Strategy:</strong>';
+      html += '<p style="margin: 6px 0 0 0; color: #e2e8f0; font-size: 0.9rem;">' + spike.advice + '</p>';
+      html += '</div>';
+      
+      // Warning
+      if (spike.warning) {
+        html += '<div style="background: rgba(239,68,68,0.1); padding: 12px; border-radius: 8px; border-left: 3px solid #ef4444;">';
+        html += '<strong style="color: #ef4444;">⚠️ Important:</strong>';
+        html += '<p style="margin: 6px 0 0 0; color: #e2e8f0; font-size: 0.9rem;">' + spike.warning + '</p>';
+        html += '</div>';
+      }
+      
+      container.innerHTML = html;
     }
 
   </script>
